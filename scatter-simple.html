@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+      <meta charset="utf-8">
+      <script type="text/javascript" src="js/echarts.min.js"></script>
+      <script type="text/javascript" src="js/jquery.min.js"></script>
+   </head>
+   
+  
+   <body style="height: 100%; margin: 0">
+      <div id="id_scatter" style="height: 100%"></div>
+      <script type="text/javascript" src="js/scatter-simple.js"></script>
+   </body>
+<script type="text/javascript">
+    
+    var wsUri="ws:localhost:5208";//webscoketurl地址
+    var ws =new WebSocket(wsUri);
+    ws.onopen =function(evt){//打开websocket连接
+        console.log("Connection open ...")
+        ws.send("Hello webSockets!"+Math.random());
+    };
+    var name_value;
+    var name="断面名称";
+    var aver_zuni="";
+    var total_zuni=0;
+    var aver_pl="";
+    var total_pl=0;
+    ws.onmessage = function(evt){
+        console.log("Received Messsge");
+        var message = evt.data;
+        //处理接收到的数据
+        var flags=message.split('#')[0];//将标志与数据分离 
+        var value=message.split('#')[1];//获取数据
+       
+        value=value.replace(/\s/g,"");//出去空格
+        //除括号
+        value=value.replace(/\[/g,"");
+        value=value.replace(/\]/g,"");
+        value=value.split(",");//去除逗号变成数组
+        
+        //初始化一个二维数组
+        var tArray = new Array();  //先声明一维
+        for(var k=0;k<value.length/2;k++){    //一维长度为i,i为变量，可以根据实际情况改变
+ 
+            tArray[k]=new Array();  //声明二维，每一个一维数组里面的一个元素都是一个数组；
+ 
+            for(var j=0;j<2;j++){   //一维数组里面每个元素数组可以包含的数量p，p也是一个变量；
+ 
+              tArray[k][j]=k+j;    //这里将变量初始化，
+            }
+        }
+        if (flags.indexOf("甘青断面")!=-1) {
+        //构成echarts所需要的二维数组
+        var k=0;
+        for (var i=0; i<value.length; ) {
+          tArray[k][0]=value[i];
+          tArray[k][1]=value[i+1];
+          total_zuni=total_zuni+parseFloat(value[i]);
+          total_pl=total_pl+parseFloat(value[i+1]);
+          k++;
+          i=i+2;
+        }
+        aver_zuni=total_zuni/(value.length/2);
+        aver_pl=total_pl/(value.length/2);
+        //不四舍五入就取两位
+        aver_zuni=Math.floor(aver_zuni*100)/100;
+        aver_pl=Math.floor(aver_pl*100)/100;
+        //四舍五入
+        // aver_zuni=aver_zuni.toFixed(2);
+        // aver_pl=aver_pl.toFixed(2);
+        name=flags;
+        name_value=tArray;
+        scatter_data(name,name_value);
+      }
+    }
+  
+     ws.onerror = function(evt) {
+            console.log("发生了错误");
+    };
+
+    ws.onclose = function(evt) {
+            console.log("Connection closed.");
+    };    
+  
+ 
+</script> 
+</html>

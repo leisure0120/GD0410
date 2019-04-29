@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FigModel type="visualization.model.extend.ExtendModel">
+  <ViewModel type="visualization.view.extend.echart.WebConfig">
+    <property name="url" value="gd\indexe.html" />
+    <!-- <property name="previewImage" value="bpx\1234.png" /> -->
+  </ViewModel>
+  <ViewModel type="visualization.model.common.BackgroundModel">
+    <property name="preferredHeight" value="500" />
+    <property name="innerTopInset" value="0.0" />
+    <property name="outterBottomInset" value="0.0" />
+    <property name="extensionGlassPanelType" value="" />
+    <property name="outterRightInset" value="0.0" />
+    <property name="outterTopInset" value="0.0" />
+    <property name="innerRightInset" value="0.0" />
+    <property name="innerBottomInset" value="0.0" />
+    <property name="innerLeftInset" value="0.0" />
+    <property name="innerBgPath" value="" />
+    <property name="viewInitHandlerType" value="" />
+    <property name="zoomscaleInnerVerti" value="1.0" />
+    <property name="zoomscaleInnerHori" value="1.0" />
+    <property name="preferredWidth" value="810" />
+    <property name="outterBgPath" value="" />
+    <property name="outterLeftInset" value="0.0" />
+  </ViewModel>
+  <ViewModel type="visualization.model.extend.ExtendInterfaceModel">
+    <property name="parameters" value="" />
+    <property name="interfaceType" value="visualization.view.extend.echart.WebViewPanel" />
+    <property name="parameterLength" value="0" />
+  </ViewModel>
+  <AccessoryModels type="visualization.model.accessory.AccessoryModel" />
+  <DataModels columns="" joinDataSynchronizeGroup="false" keys="" needOrder="false" refreshInterval="8">
+    <DataModel key="" type="visualization.model.data.DmdbDataModel">
+      <property name="subModelType" value="" />
+      <property name="joinDataSynchronizeGroup" value="false" />
+      <property name="modelType" value="" />
+      <property name="dataStyle" value="" />
+      <property name="layout" value="" />
+      <property name="timeType" value="日" />
+      <property name="parameter" value="" />
+      <property name="id" value="" />
+    </DataModel>
+  </DataModels>
+</FigModel>
+

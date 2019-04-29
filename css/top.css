@@ -1,0 +1,55 @@
+.change:hover {
+    color: #fff;
+    background: #0a90f5;
+}
+.change:focus {
+    color: #fff;
+    background: #0a90f5;
+    outline: none;
+}
+.change {
+    background-color: #091936;
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+    border-bottom-left-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 24px;
+    float: left;
+    width: 200px;
+    height: 45px;
+}
+.alltop_style {
+    float: left;
+}
+.zuni_txt {
+    text-align: center;
+    font-size: 24px;
+    height: 180px;
+    line-height: 180px;
+    color: #FFFFFF;
+    
+}
+.pl_txt {
+    margin: 0;
+    text-align: center;
+    font-size: 24px;
+    height: 100px;
+    line-height: 100px;
+    color: #FFFFFF;
+}
+.zuni {
+    /*	background-image:url('../images/zn_bg.png');
+	background-repeat:no-repeat;*/
+    background: url('../images/zn_bg.png') no-repeat center 20px;
+    width: 200px;
+    height: 180px;
+}
+.pl {
+    /*background-image:url('../images/pl_bg.png');
+	background-repeat:no-repeat;*/
+    background: url('../images/pl_bg.png') no-repeat center center;
+    width: 200px;
+    height: 100px;
+}

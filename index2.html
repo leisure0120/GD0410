@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>WAMS专题</title>
+    <!-- <script type="text/javascript" src="js/api.js"></script>     -->
+    <script type="text/javascript" src="js/echarts.min.js"></script>
+    <script type="text/javascript" src="js/china.js" ></script>
+    <!-- <script type="text/javascript" src="js/bmap.min.js"></script> -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="css/top.css">
+      <script type="text/javascript" src="js/top_ten.js"></script>
+      <style type="text/css">
+          filter:alpha(opacity=50); /*支持 IE 浏览器*/
+            -moz-opacity:0.50; /*支持 FireFox 浏览器*/
+            opacity:0.50; 
+      </style>
+     
+    <!-- <script type="text/javascript" src="../js/echarts.js"></script> -->
+    <!-- <script type="text/javascript" src="../js/echarts-all.js"></script> background-image:url('images/dbg.png');-->
+
+</head>
+<body style="background-color: #090913;height:2160px;width: 7680px;background-size:100% auto;height:100%;background-repeat:no-repeat;background-color:#090913;margin: 0;border: 0;padding: 0">
+    <div style="height:2160px;width: 3840px;float: left;">
+        <div id="bars" style="width:100% ;height:100%;position: relative;float: left;"></div>
+    </div>
+    <div style="height:2160px;width: 3840px;    float: left;">
+        <div id="sandiantitle" style="width:40%;float: left;margin-left: 100px;border: none;padding: 0;">
+                    <img style="line-height: 110px;float: left;"  src="images/titlepic.png" style="padding-left: 80px;">
+                    <span style="line-height: 110px;float: left;font-size: 48px;color: white;vertical-align: super;">甘青断面</span>
+        </div>
+        <div id="shuangzhutitle" style="float: left;margin-left: 100px;border: none;padding: 0;">
+                    <img style="line-height: 110px;float: left;"  src="images/titlepic.png" style="padding-left: 80px;">
+                    <span style="line-height: 110px;float: left;font-size: 48px;color: white;vertical-align: super;">重要断面运行状态监视</span>
+        </div>
+        <div id="id_scatter" style="height:970px;width: 40%;float: left;"></div>
+        <div id="shuangzhu" style="width:60% ;height:970px;position: relative;float: left;"></div>
+        <div id="toptitle" style="width:40%;float: left;margin-left: 100px;border: none;padding: 0;">
+                    <img style="line-height: 110px;float: left;"  src="images/titlepic.png" style="padding-left: 80px;">
+                    <span style="line-height: 110px;float: left;font-size: 48px;color: white;vertical-align: super;">当前阻尼比最低的十个断面</span>
+        </div>
+        <div id="kxiantitle" style="float: left;margin-left: 100px;border: none;padding: 0;">
+                    <img style="line-height: 110px;float: left;"  src="images/titlepic.png" style="padding-left: 80px;">
+                    <span style="line-height: 110px;float: left;font-size: 48px;color: white;vertical-align: super;">重要断面日统计指标</span>
+        </div>
+        <div style="width: 100%;overflow: hidden;">
+            <div id="top_ten" style="margin: 100px;float: left;">
+                <div>
+                    <div class="alltop_style" >
+                        <div><button id="top_1" class="change" type="button" onclick="data_change_1()">甘青断面</button></div>
+                        <div class="zuni"><p id="top_1_zn" class="zuni_txt">阻尼比</p></div>
+                        <div class="pl"><p id="top_1_pl" class="pl_txt">频率</p></div>
+                    </div>
+                    <div class="alltop_style">
+                        <div><button id="top_2" class="change" type="button" onclick="data_change_2()">甘宁断面</button></div>
+                        <div class="zuni"><p id="top_2_zn" class="zuni_txt">阻尼比</p></div>
+                        <div class="pl"><p id="top_2_pl" class="pl_txt">频率</p></div>
+                    </div>
+                    <div class="alltop_style">
+                        <div><button id="top_3" class="change" type="button" onclick="data_change_3()">河鱼断面</button></div>
+                        <div class="zuni"><p id="top_3_zn" class="zuni_txt">阻尼比</p></div>
+                        <div class="pl"><p id="top_3_pl" class="pl_txt">频率</p></div>
+                    </div>
+                    <div class="alltop_style">
+                        <div><button id="top_4" class="change" type="button" onclick="data_change_4()">川藏联网断面</button></div>
+                        <div class="zuni"><p id="top_4_zn" class="zuni_txt">阻尼比</p></div>
+                        <div class="pl"><p id="top_4_pl" class="pl_txt">频率</p></div>
+                    </div>
+                    <div class="alltop_style">
+                        <div><button id="top_5" class="change" type="button" onclick="data_change_5()">浙沪断面</button></div>
+                        <div class="zuni"><p id="top_5_zn" class="zuni_txt">阻尼比</p></div>
+                        <div class="pl"><p id="top_5_pl" class="pl_txt">频率</p></div>
+                    </div>
+                </div>
+                <div style="clear: both;">
+                    <div class="alltop_style" float:>
+                        <div><button id="top_6" class="change" type="button" onclick="data_change_6()">安徽送出断面</button></div>
+                        <div class="zuni"><p id="top_6_zn" class="zuni_txt">阻尼比</p></div>
+                        <div class="pl"><p id="top_6_pl" class="pl_txt">频率</p></div>
+                    </div>
+                    <div class="alltop_style">
+                        <div><button id="top_7" class="change" type="button" onclick="data_change_7()">吉黑断面</button></div>
+                        <div class="zuni"><p id="top_7_zn" class="zuni_txt">阻尼比</p></div>
+                        <div class="pl"><p id="top_7_pl" class="pl_txt">频率</p></div>
+                    </div>
+                    <div class="alltop_style">
+                        <div><button id="top_8" class="change" type="button" onclick="data_change_8()">鄂湘断面</button></div>
+                        <div class="zuni"><p id="top_8_zn" class="zuni_txt">阻尼比</p></div>
+                        <div class="pl"><p id="top_8_pl" class="pl_txt">频率</p></div>
+                    </div>
+                    <div class="alltop_style">
+                        <div><button id="top_9" class="change" type="button" onclick="data_change_9()">苏沪断面</button></div>
+                        <div class="zuni"><p id="top_9_zn" class="zuni_txt">阻尼比</p></div>
+                        <div class="pl"><p id="top_9_pl" class="pl_txt">频率</p></div>
+                    </div>
+                    <div class="alltop_style">
+                        <div><button id="top_10" class="change" type="button" onclick="data_change_10()">敦鱼断面</button></div>
+                        <div class="zuni"><p id="top_10_zn" class="zuni_txt">阻尼比</p></div>
+                        <div class="pl"><p id="top_10_pl" class="pl_txt">频率</p></div>
+                    </div>
+                </div>
+            </div>
+            <div id="kxian" style="width:60% ;height:970px;position: relative;float: right;"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+
+    </script>
+    <script type="text/javascript" src="js/scatter-simple.js"></script>
+    <script type="text/javascript">  
+        var data1=[
+            {name:'国调.复龙换流站', value:1},
+            {name:'锦屏', value:1},
+            {name:'宜宾换流站',value: 1},
+            {name:'苏州换流站',value: 1}, 
+            {name:'上海奉贤站',value: 0}, 
+            {name:'中州换流站',value: 1}, 
+            {name:'天山换流站',value: 0}, 
+            {name:'锡盟一平面', value:1},
+            {name:'国调锡盟一平面', value:1},
+            {name:'国调.伊克昭换流站',value: 1}, 
+            {name:'国调.昌吉换流站',value: 1}, 
+            {name:'国调.古泉换流站',value: 0}, 
+            {name:'祁连换流站一', value:1},
+            {name:'国调.淮安换流站一', value:0},
+            {name:'泰州',value: 1}, 
+            {name:'国调.泰州一平面',value: 1},
+            {name:'政平换流站',value: 1}, 
+            {name:'胶东换流站',value: 1}, 
+            {name:'沂南换流站一平面',value: 1}, 
+            {name:'国调.广固换流站一平面',value: 1}, 
+            {name:'灵宝站',value: 1}, 
+            {name:'南阳站',value: 1}, 
+            {name:'国调.韶山换流站一',value: 0}, 
+            {name:'鹅城',value: 1}, 
+            {name:'国调.江陵换流站',value: 1}, 
+            {name:'国调.团林换流站一',value: 1}, 
+            {name:'国调.宜都换流站',value: 1}, 
+            {name:'国调.葛洲坝换流站一',value: 1}, 
+            {name:'国调.龙泉换流站',value: 1}, 
+            {name:'斗笠',value: 1}, 
+            {name:'荆门站',value: 1}, 
+            {name:'安福站',value: 1}, 
+            {name:'高岭',value: 1}, 
+            {name:'高岭扩建',value: 1}, 
+            {name:'德阳换流站',value: 1}, 
+            {name:'四川.南天',value: 1}, 
+            {name:'国调.南天站',value: 1}, 
+            {name:'月城',value: 1}, 
+            {name:'宝鸡换',value: 1}, 
+            {name:'灵州换流站',value: 1}, 
+            {name:'银川东750KV',value: 1}, 
+            {name:'华新换流站',value: 1}, 
+            {name:'上海南桥',value: 1}, 
+            {name:'枫泾换流站',value: 1}, 
+            {name:'长治1000kV',value: 1}, 
+            {name:'国调.雁门关一',value: 1}, 
+            {name:'绍兴换流站一',value: 1}, 
+            {name:'金华换流站',value: 1}, 
+            {name:'华北.官路一',value: 1}, 
+            {name:'国调.扎鲁特一',value: 1},
+            {name:'三峡左岸',value: 1}, 
+            {name:'三峡右岸厂',value: 1},
+            {name:'官地电厂',value: 1}, 
+            {name:'锦东电厂',value:1}, 
+            {name:'锦东电厂',value:1}, 
+            {name:'国调.溪洛渡左岸电厂',value: 1}, 
+            {name:'南湖电厂',value: 1}, 
+            {name:'花园电厂',value: 1},
+            {name:'绿洲电厂',value: 1}, 
+            {name:'国调.银星电厂一平面',value: 1},
+            {name:'黎阳电厂一平面',value: 1}, 
+            {name:'国调.宁东二期电厂一平面',value: 1}, 
+            {name:'国调.鸳鸯湖二期电厂', value:1},
+            {name:'国调.鸳鸯湖二期电厂二期',value: 1}, 
+            {name:'国调.施州换流站',value: 3}, 
+            {name:'国调.宜昌换流站一平面',value: 1}
+        ];
+        var data2=[
+            {name:'国调.复龙换流站二', value:1},
+            {name:'宜宾换流站二', value:1},
+            {name:'中州换流站二',value: 1}, 
+            {name:'天山换流站二', value:1},
+            {name:'国调锡盟二平面', value:1},
+            {name:'锡盟二平面',value: 1},
+            {name:'国调.伊克昭换流站二',value: 1}, 
+            {name:'国调.昌吉换流站二平面',value: 1}, 
+            {name:'国调.古泉换流站二平面',value: 1}, 
+            {name:'祁连换流站二',value: 1},
+            {name:'国调.淮安换流站二',value: 1},
+            {name:'泰州二平面', value:1},
+            {name:'国调.泰州二平面',value: 1}, 
+            {name:'沂南换流站二平面',value: 1},
+            {name:'国调.广固换流站二平面',value: 1}, 
+            {name:'灵宝换流站二平面',value: 1}, 
+            {name:'国调.韶山换流站二',value: 1},
+            {name:'鹅城二',value: 1},
+            {name:'国调.江陵换流站二',value: 1},
+            {name:'国调.团林换流站二', value:1},
+            {name:'国调.宜都换流站二',value: 1}, 
+            {name:'国调.葛洲坝换流站二',value: 1}, 
+            {name:'国调.龙泉换流站二',value: 1}, 
+            {name:'灵州换流站二',value: 1}, 
+            {name:'银川东750二平面',value: 1}, 
+            {name:'长治二平面',value: 1}, 
+            {name:'国调.雁门关二',value: 1}, 
+            {name:'绍兴换流站二',value: 1}, 
+            {name:'金华换流站二',value: 1}, 
+            {name:'华北.官路二',value: 1}, 
+            {name:'国调.扎鲁特二',value: 1},
+            {name:'国调.三峡左岸厂二',value: 1},
+            {name:'国调.三峡右岸厂二',value: 1}, 
+            {name:'国调.溪洛渡左岸电厂二',value: 1},
+            {name:'南湖电厂二',value: 1},
+            {name:'花园电厂二',value: 1},
+            {name:'绿洲电厂二',value: 1}, 
+            {name:'国调.银星电厂二平面',value: 1},
+            {name:'黎阳电厂二平面',value: 1}, 
+            {name:'国调宁东二期电厂二平面',value: 1}, 
+            {name:'国调.施州换流站二',value: 3},
+            {name:'国调.宜昌换流站二平面',value: 1}, 
+        ];
+        // var data1 = [
+        //     {name: '海门', value:0},//red
+        //     {name: '鄂尔多斯', value:0},
+        //     {name: '招远', value:0},
+        //     {name: '舟山', value:1},
+        //     {name: '北京',value:1},
+        //     {name:'天津',value:1},
+        //     {name:'重庆',value:1},
+        //     {name:'河北',value:1},
+        //     {name:'山西',value:1},
+        //     {name:'辽宁',value:1},
+        //     {name:'吉林',value:1},
+        //     {name:'黑龙江',value:1},
+        //     {name:'浙江',value:1},//green
+        //     {name: '福建',value:1},
+        //     {name: '山东',value:1},
+        //     {name: '河南',value:1},
+        //     {name: '湖北',value:1},
+        //     {name: '湖南',value:1},
+        //     {name: '广东',value:1},
+        //     {name: '海南',value:1},
+        //     {name: '四川',value:0},
+        //     {name: '贵州',value:0},
+        //     {name: '云南',value:0},
+        //     {name: '江西',value:0},
+        //     {name: '陕西',value:0},
+        //     {name: '青海',value:0},
+        //     {name: '甘肃',value:0},
+        //     {name: '广西',value:1},
+        //     {name: '新疆',value:1},
+        //     {name:'内蒙古',value:1},
+        //     {name: '西藏',value:1},
+        //     {name: '宁夏',value:1},
+        //     {name: '台湾',value:1},
+        //     {name: '香港',value:1},
+        //     {name: '澳门',value:1},
+        //     {name: '安徽',value:1},
+        //     {name: '江苏',value:1}
+        // ];
+        // var data2=[
+        //     {name: '海门', value: 0},//red
+        //     {name: '鄂尔多斯', value:0},
+        //     {name: '招远', value: 0},
+        //     {name: '舟山', value: 1},
+        //     {name: '北京',value:1},
+        //     {name:'天津',value:1},
+        //     {name:'重庆',value:0},
+        //     {name:'河北',value:1},
+        //     {name:'山西',value:1},
+        //     {name:'辽宁',value:1},
+        //     {name:'吉林',value:1},
+        //     {name:'黑龙江',value:1},
+        //     {name:'浙江',value:1},//green
+        //     {name: '福建',value:1},
+        //     {name: '山东',value:1},
+        //     {name: '河南',value:1},
+        //     {name: '湖北',value:1},
+        //     {name: '湖南',value:1},
+        //     {name: '广东',value:1},
+        //     {name: '海南',value:1},
+        //     {name: '四川',value:0},
+        //     {name: '贵州',value:0},
+        //     {name: '云南',value:0},
+        //     {name: '江西',value:0},
+        //     {name: '陕西',value:0},
+        //     {name: '青海',value:0},
+        //     {name: '甘肃',value:0},
+        //     {name: '广西',value:1},
+        //     {name: '新疆',value:1},
+        //     {name:'内蒙古',value:1},
+        //     {name: '西藏',value:1},
+        //     {name: '宁夏',value:1},
+        //     {name: '台湾',value:1},
+        //     {name: '香港',value:1},
+        //     {name: '澳门',value:1},
+        //     {name: '安徽',value:1},
+        //     {name: '江苏',value:1}
+        // ];
+        // var geoCoordMap = {
+        //     '海门': [121.15, 31.89],//pink
+        //     '河北': [114.48, 38.03],//purple
+        //     '鄂尔多斯': [109.781327, 39.608266],//blue
+        //     '招远': [120.38, 37.35],//green
+        //     '舟山': [122.207216, 29.985295],//yellow
+        //     '北京': [116.46, 39.92],//
+        //    '上海':[121.48, 31.22],
+        //    '天津':[117.2, 39.13],
+        //    '重庆':[106.54, 29.59],
+        //    '河北':[114.48, 38.03],
+        //    '山西':[112.53, 37.87],
+        //    '辽宁':[123.38, 41.8],
+        //    '吉林':[125.35, 43.88],
+        //    '黑龙江':[126.63, 45.75],
+        //    '浙江':[120.19, 30.26],
+        //    '福建':[119.3, 26.08],
+        //    '山东':[106.54, 29.59],
+        //    '河南':[113.65, 34.76],
+        //    '湖北':[114.31, 30.52],
+        //    '湖南': [113, 28.21],
+        //    '广东':[113.23, 23.16],
+        //    '海南':[110.35, 20.02],
+        //    '四川':[104.06, 30.67],
+        //    '贵州':[106.71, 26.57],
+        //    '云南':[102.73, 25.04],
+        //    '江西':[115.89, 28.68],
+        //    '陕西':[108.95, 34.27],
+        //    '青海':[101.74, 36.56],
+        //    '甘肃':[103.73, 36.03],
+        //    '广西':[106.54, 29.59],
+        //    '新疆': [87.68, 43.77],
+        //    '内蒙古':[111.65, 40.82],
+        //    '西藏': [91.11, 29.97],
+        //    '宁夏':[106.27, 38.47],
+        //    '台湾': [121.5, 25.14],
+        //    '香港': [114.1, 22.2],
+        //    '澳门':[113.33, 22.13],
+        //    '安徽':[117.27, 31.86],
+        //    '江苏':[118.78, 32.04]
+        // };
+        var geoCoordMap = {
+            '国调.复龙换流站':[104.400335,28.521854],
+            '国调.复龙换流站二':[104.400335,28.521854],
+            '锦屏':[104.157654,28.659405],
+            '宜宾换流站':[104.642504,28.75826],
+            '宜宾换流站二':[104.642504,28.75826],
+            '苏州换流站':[120.590687,31.304799], 
+            '上海奉贤站':[121.479354,30.924959], 
+            '中州换流站':[114.066079,34.816884], 
+            '中州换流站二':[114.066079,34.816884], 
+            '天山换流站':[93.631636,43.371613], 
+            '天山换流站二':[93.631636,43.371613],
+            '锡盟一平面':[116.510362,44.255166],
+            '国调锡盟一平面':[116.510362,44.255166],
+            '国调锡盟二平面':[116.510362,44.255166],
+            '锡盟二平面':[116.510362,44.255166], 
+            '国调.伊克昭换流站':[106.878621,38.790016], 
+            '国调.伊克昭换流站二':[106.878621,38.790016], 
+            '国调.昌吉换流站':[87.201166,43.954378], 
+            '国调.昌吉换流站二平面':[87.201166,43.954378], 
+            '国调.古泉换流站':[117.462008,31.884313], 
+            '国调.古泉换流站二平面':[117.462008,31.884313], 
+            '祁连换流站一':[100.257892,38.184512],
+            '祁连换流站二':[100.257892,38.184512], 
+            '国调.淮安换流站一':[119.052528,33.608358],
+            '国调.淮安换流站二':[119.052528,33.608358],
+            '泰州':[119.96809,32.463843], 
+            '泰州二平面':[119.96809,32.463843],
+            '国调.泰州一平面':[119.96809,32.463843],
+            '国调.泰州二平面':[119.96809,32.463843], 
+            '政平换流站':[120.003115,31.615814], 
+            '胶东换流站':[120.003115,31.615814], 
+            '沂南换流站一平面':[118.492192,35.563851], 
+            '沂南换流站二平面':[118.492192,35.563851], 
+            '国调.广固换流站一平面':[118.508694,36.731171], 
+            '国调.广固换流站二平面':[118.508694,36.731171], 
+            '灵宝站':[110.715118,34.574083], 
+            '灵宝换流站二平面':[110.715118,34.574083], 
+            '南阳站':[112.518575,33.00416], 
+            '国调.韶山换流站一':[112.536876,27.929406], 
+            '国调.韶山换流站二':[112.536876,27.929406], 
+            '鹅城':[114.396159,23.103639], 
+            '鹅城二':[114.396159,23.103639], 
+            '国调.江陵换流站二':[112.440649,30.051294], 
+            '国调.江陵换流站':[112.440649,30.051294], 
+            '国调.团林换流站一':[112.189599,30.880222], 
+            '国调.团林换流站二':[112.189599,30.880222],
+            '国调.宜都换流站':[111.458245,30.386149], 
+            '国调.宜都换流站二':[111.458245,30.386149], 
+            '国调.葛洲坝换流站二':[111.304288,30.699622], 
+            '国调.葛洲坝换流站一':[111.304288,30.699622], 
+            '国调.龙泉换流站':[119.146149,28.076684], 
+            '国调.龙泉换流站二':[119.146149,28.076684], 
+            '斗笠':[115.303418,29.795429], 
+            '荆门站':[112.21837,31.057063], 
+            '安福站':[114.628203,27.398819], 
+            '高岭':[110.531285,21.300211], 
+            '高岭扩建':[110.531285,21.300211], 
+            '德阳换流站':[104.589363,31.32707], 
+            '四川.南天':[118.744287,30.953219], 
+            '国调.南天站':[118.744287,30.953219], 
+            '月城':[120.230155,31.809136], 
+            '宝鸡换':[107.341091,34.584702], 
+            '灵州换流站':[106.553038,37.739135], 
+            '灵州换流站二':[106.553038,37.739135], 
+            '银川东750KV':[106.181328,38.497288], 
+            '银川东750二平面':[106.181328,38.497288], 
+            '华新换流站':[121.130551,31.154218], 
+            '上海南桥':[121.465458,30.908884], 
+            '枫泾换流站':[121.029183,30.869701], 
+            '长治1000kV':[113.121987,36.202898], 
+            '长治二平面':[113.121987,36.202898], 
+            '国调.雁门关一':[112.894843,39.168834], 
+            '国调.雁门关二':[112.894843,39.168834], 
+            '绍兴换流站一':[120.586052,30.037121], 
+            '绍兴换流站二':[120.586052,30.037121], 
+            '金华换流站':[119.652866,29.085903], 
+            '金华换流站二':[119.652866,29.085903], 
+            '华北.官路一':[109.731761,34.740032], 
+            '华北.官路二':[109.731761,34.740032], 
+            '国调.扎鲁特一':[120.914599,44.56242],
+            '国调.扎鲁特二':[120.914599,44.56242], 
+            '三峡左岸':[111.024502,30.836773], 
+            '国调.三峡左岸厂二':[111.024502,30.836773], 
+            '三峡右岸厂':[111.024502,30.836773],
+            '国调.三峡右岸厂二':[111.024502,30.836773], 
+            '官地电厂':[128.424758,43.569769], 
+            '锦东电厂':[109.204648,26.681351], 
+            '锦东电厂':[109.204648,26.681351], 
+            '国调.溪洛渡左岸电厂':[103.638594,28.238148], 
+            '国调.溪洛渡左岸电厂二':[103.638594,28.238148], 
+            '南湖电厂':[93.109186,42.179897], 
+            '南湖电厂二':[93.109186,42.179897], 
+            '花园电厂':[93.500119,42.833546],
+            '花园电厂二':[93.500119,42.833546], 
+            '绿洲电厂':[93.520062,42.824768], 
+            '绿洲电厂二':[93.520062,42.824768], 
+            '国调.银星电厂一平面':[106.806811,37.801173],
+            '国调.银星电厂二平面':[106.806811,37.801173], 
+            '黎阳电厂一平面':[114.551856,35.684029], 
+            '黎阳电厂二平面':[114.551856,35.684029], 
+            '国调.宁东二期电厂一平面':[106.592829,38.169968], 
+            '国调宁东二期电厂二平面':[106.592829,38.169968], 
+            '国调.鸳鸯湖二期电厂':[106.694235,38.066542],
+            '国调.鸳鸯湖二期电厂二期':[106.694235,38.066542], 
+            '国调.施州换流站':[109.144513,29.672645], 
+            '国调.施州换流站二':[109.144513,29.672645], 
+            '国调.宜昌换流站二平面':[111.294277,30.697694], 
+            '国调.宜昌换流站一平面':[111.294277,30.697694]
+        };
+
+        var convertData = function (data) {
+            var res = [];
+            for (var i = 0; i < data.length; i++) {
+                var geoCoord = geoCoordMap[data[i].name];
+                if (geoCoord) {
+                    res.push({
+                        name: data[i].name,
+                        value: geoCoord.concat(data[i].value)
+                    });
+                }
+            }
+            return res;
+        };
+        var optionMap = {
+                    geo:{
+                        show:true,
+                        map:'china',
+                        itemStyle:{
+                            normal: {
+                                show:true,
+                                borderWidth: 2, //区域边框宽度
+                                borderColor: '#0072A3', //区域边框颜色
+                                areaColor: "#090713", //区域颜色
+                            },
+                            emphasis: {
+                                show:true,
+                                borderWidth: 2,
+                                borderColor: '#0072A3',
+                                areaColor: "#065D6F",
+                            }
+                        },
+                        label: {
+                            normal: { 
+                                show:true, 
+                                textStyle: {
+                                    fontSize: 28,
+                                    // fontWeight: 'bold',
+                                    color: 'rgba(255,255,255,0.5)'
+                                }
+                            },
+                            emphasis: {
+                                textStyle: {
+                                    fontSize: 28,
+                                    // fontWeight: 'bold',
+                                    color: 'rgba(255,255,255,0.7)'
+                                }
+                            }
+                        }, 
+                    },
+                    title: {
+                        text: 'WAMS链路状态监视',
+                        x: 'center',
+                        textStyle:{
+                            fontSize:48,
+                            color:'#fff'
+                        }
+                    },
+                    tooltip: {
+                        show:true,
+                        trigger: 'item',
+                        formatter:'{a}<br/><br/>{b}'
+                    },
+                    legend: {
+                        x: 300,
+                        y: 280,
+                        orient: 'vertical',
+                        x: 'left',
+                        // symbolSize:100,
+                        itemWidth:50,             // 值域图形宽度，线性渐变水平布局宽度为该值 * 10
+                        itemHeight:50,
+                        symbol:['circle','pin'],
+                        textStyle:{
+                                fontSize:58,
+                                color:'rgba(255,255,255,0.7)'
+                        },
+                        data: ['一平面','二平面']
+                    },
+ 
+                    dataRange: {
+                        x: 300,
+                        y: 300,
+                        itemWidth: 30,             // 值域图形宽度，线性渐变水平布局宽度为该值 * 10
+                        itemHeight:30,
+                        symbol:'diamond',
+                        formatter : function(v2){
+                                if (v2<1) { return '故障' }
+                                    else {return '正常'}
+                            },
+                        splitList: [{
+                            start: 1//red
+                        }, {
+                            end:1//<1 pink
+                        }],
+                        // symbolSize:220,
+                        textStyle:{
+                                fontSize:58,
+                                color:'rgba(255,255,255,0.7)'
+                        },
+                        color: ['green', 'pink', 'yellow','orange','blue','purple','red']
+                    },
+                    toolbox: {
+                        show: true,
+                        orient: 'vertical',
+                        x: 'right',
+                        y: 'center',
+                    },
+                    series: [
+                    {
+                        name: '一平面',
+                        label: {
+                            normal: {
+                                show: false
+                            },
+                            emphasis: {
+                                show: false
+                            }
+                        },
+                        zoom:7,
+                        // type: 'map',
+                        // mapType: 'china',
+                        type:'scatter',
+                        // symbol:'rect',
+                        symbol:'pin',
+                        // symbol:'triangle',
+                        // symbol:'diamond',
+                        // symbol:'arrow',
+                        // symbol:'circle',
+                        coordinateSystem:'geo',
+
+                        selectedMode:'single',
+                        data: convertData(data1),
+                        itemStyle: {
+                            normal: {
+                                color:'green',
+                                label: { show: false },//圆圈里的数字
+                                textStyle: {
+                                    color: "rgb(249, 249, 249)"
+                                }
+                            },
+                            // emphasis: { label: { show: false } }
+                        },
+                        symbolSize:50,
+                    },
+                    {
+                        name: '二平面',
+                        label: {
+                            normal: {
+                                show: false
+                            },
+                            emphasis: {
+                                show: false
+                            }
+                        },
+                        zoom:7,
+                        type:'scatter',
+                        coordinateSystem:'geo',
+                        selectedMode: 'single',
+                        data: convertData(data2),
+                        itemStyle: {
+                            normal: {
+                                color:'red',
+                                label: { show: false },//圆圈里的数字
+                                textStyle: {
+                                    color: "rgb(249, 249, 249)"
+                                }
+                            },
+                            // emphasis: { label: { show: false } }
+                        },
+                        symbolSize:15, 
+                    }
+                    ]
+                };
+        //初始化echarts实例
+
+        function setOptionGis(rawData){
+            // 指定图表的配置项和数据
+            var option = {
+                    geo:{
+                        show:true,
+                        map:'china',
+                        itemStyle:{
+                            normal: {
+                                show:true,
+                                borderWidth: 2, //区域边框宽度
+                                borderColor: '#0072A3', //区域边框颜色
+                                areaColor: "#090713", //区域颜色
+                            },
+                            emphasis: {
+                                show:true,
+                                borderWidth: 2,
+                                borderColor: '#0072A3',
+                                areaColor: "#065D6F",
+                            }
+                        },
+                        label: {
+                            normal: { 
+                                show:true, 
+                                textStyle: {
+                                    fontSize: 28,
+                                    // fontWeight: 'bold',
+                                    color: 'rgba(255,255,255,0.5)'
+                                }
+                            },
+                            emphasis: {
+                                textStyle: {
+                                    fontSize: 28,
+                                    // fontWeight: 'bold',
+                                    color: 'rgba(255,255,255,0.7)'
+                                }
+                            }
+                        }, 
+                    },
+                    title: {
+                        text: 'WAMS链路状态监视',
+                        x: 'center',
+                        textStyle:{
+                            fontSize:48,
+                            color:'#fff'
+                        }
+                    },
+                    tooltip: {
+                        show:true,
+                        trigger: 'item',
+                        formatter:'{a}<br/><br/>{b}'
+                    },
+                    legend: {
+                        x: 300,
+                        y: 280,
+                        orient: 'vertical',
+                        x: 'left',
+                        // symbolSize:100,
+                        itemWidth:50,             // 值域图形宽度，线性渐变水平布局宽度为该值 * 10
+                        itemHeight:50,
+                        symbol:['circle','pin'],
+                        textStyle:{
+                                fontSize:58,
+                                color:'rgba(255,255,255,0.7)'
+                        },
+                        data: ['一平面','二平面']
+                    },
+ 
+                    dataRange: {
+                        x: 300,
+                        y: 300,
+                        itemWidth: 30,             // 值域图形宽度，线性渐变水平布局宽度为该值 * 10
+                        itemHeight:30,
+                        symbol:'diamond',
+                        formatter : function(v2){
+                                if (v2<1) { return '故障' }
+                                    else {return '正常'}
+                            },
+                        splitList: [{
+                            start: 1//red
+                        }, {
+                            end:1//<1 pink
+                        }],
+                        // symbolSize:220,
+                        textStyle:{
+                                fontSize:58,
+                                color:'rgba(255,255,255,0.7)'
+                        },
+                        color: ['green', 'pink', 'yellow','orange','blue','purple','red']
+                    },
+                    toolbox: {
+                        show: true,
+                        orient: 'vertical',
+                        x: 'right',
+                        y: 'center',
+                    },
+                    series: [
+                    {
+                        name: '一平面',
+                        label: {
+                            normal: {
+                                show: false
+                            },
+                            emphasis: {
+                                show: false
+                            }
+                        },
+                        zoom:7,
+                        // type: 'map',
+                        // mapType: 'china',
+                        type:'scatter',
+                        // symbol:'rect',
+                        symbol:'pin',
+                        // symbol:'triangle',
+                        // symbol:'diamond',
+                        // symbol:'arrow',
+                        // symbol:'circle',
+                        coordinateSystem:'geo',
+
+                        selectedMode:'single',
+                        data: convertData(rawData),
+                        itemStyle: {
+                            normal: {
+                                color:'green',
+                                label: { show: false },//圆圈里的数字
+                                textStyle: {
+                                    color: "rgb(249, 249, 249)"
+                                }
+                            },
+                            // emphasis: { label: { show: false } }
+                        },
+                        symbolSize:50,
+                    },
+                    {
+                        name: '二平面',
+                        label: {
+                            normal: {
+                                show: false
+                            },
+                            emphasis: {
+                                show: false
+                            }
+                        },
+                        zoom:7,
+                        type:'scatter',
+                        coordinateSystem:'geo',
+                        selectedMode: 'single',
+                        data: convertData(data2),
+                        itemStyle: {
+                            normal: {
+                                color:'red',
+                                label: { show: false },//圆圈里的数字
+                                textStyle: {
+                                    color: "rgb(249, 249, 249)"
+                                }
+                            },
+                            // emphasis: { label: { show: false } }
+                        },
+                        symbolSize:15, 
+                    }
+                    ]
+                };
+            // 使用刚指定的配置项和数据显示图表。
+            myChartGis.setOption(option);  
+            window.onresize = function(){
+                myChartGis.resize();
+            } 
+            return option;
+        }   
+        var myChartGis = echarts.init(document.getElementById('bars'));
+        //使用制定的配置项和数据显示图表
+        myChartGis.setOption(optionMap);
+        function processingDataGis(jsonData){
+            var gisOption = setOptionGis(jsonData);
+            myChartGis.setOption(gisOption);
+        } 
+     
+        var kxian = {
+                    grid:{
+                        x: 150,
+                        y:100,
+                        x2:200,
+                        y2: 150,// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            nameTextStyle:{fontSize:'24'},
+                            data: ['甘青断面','甘宁断面','河鱼断面','高鱼断面'
+                            ,'浙沪断面','伊冯断面','钱塘江断面','华中华北断面','吉黑断面','鄂湘断面','赤峰外送断面','苏沪断面','新疆外送断面','通辽外送断面','敦鱼断面','川渝断面','闽浙断面','苏浙断面','鄂豫断面','安徽送出断面','川藏联网断面','陕甘断面','渝鄂断面','辽吉断面','鄂赣断面','泉鱼断面'
+                            ],
+                            //设置轴线的属性
+                            axisLine:{
+                                lineStyle:{
+                                    color:'#ffffff',
+                                    width:1,//这里是为了突出显示加上的
+                                }
+                            },
+                            // x轴的字体样式
+                            axisLabel: {        
+                                show: true,
+                                interval:0,  
+                                rotate:40, 
+                                textStyle: {
+                                    color: '#fff',
+                                    fontSize:24
+                                }
+                            },
+                            axisPointer: {
+                                type: 'shadow'
+                            }
+                        }
+                    ],
+                    yAxis: [
+                            {
+                            type: 'value',
+                            splitLine:{show:false},
+                            nameTextStyle:{fontSize:'24'},
+                            name: '频率',
+                            //设置轴线的属性
+                            axisLine:{
+                                lineStyle:{
+                                    color:'#ffffff',
+                                    width:1,//这里是为了突出显示加上的
+                                }
+                            },
+                            // x轴的字体样式
+                            axisLabel: {        
+                                show: true,
+                                interval:0,  
+                                rotate:0, 
+                                formatter: '{value} HZ',
+                                textStyle: {
+                                    color: '#fff',
+                                    fontSize:24
+                                }
+                            },
+                            min: 0,
+                            max: 1.2,
+                            interval: 0.2,
+                            axisPointer: {
+                                type: 'shadow'
+                            }
+                        },
+                        {
+                            type: 'value',
+                            splitLine:{show:false},
+                            nameTextStyle:{fontSize:'24'},
+                            name: '阻尼比',
+                            //设置轴线的属性
+                            axisLine:{
+                                lineStyle:{
+                                    color:'#ffffff',
+                                    width:1,//这里是为了突出显示加上的
+                                }
+                            },
+                            // x轴的字体样式
+                            axisLabel: {        
+                                show: true,
+                                interval:0,  
+                                rotate:0, 
+                                textStyle: {
+                                    color: '#fff',
+                                    fontSize:24
+                                }
+                            },
+                            axisPointer: {
+                                type: 'shadow'
+                            },
+                            min: 0,
+                            max: 25,
+                            interval: 5,
+                    }],
+                    series: [
+                        {
+                        name:'重要断面日统计指标',
+                        type: 'candlestick',
+                        data: [
+                                // value:[0.40,0.40, 0.30, 0.55],
+                                [0.22,0.23, 0.10, 0.3],
+                                [0.40,0.41, 0.30, 0.55],
+                                [0.33,0.34, 0.30, 0.40],   
+                                [0.22,0.23, 0.10, 0.3],
+                                [0.40,0.41, 0.30, 0.55],
+                                [0.33,0.34, 0.30, 0.40],
+                                [0.40,0.41, 0.32, 0.42],
+                                [0.22,0.23, 0.10, 0.3],
+                                [0.40,0.41, 0.30, 0.55],
+                                [0.33,0.34, 0.30, 0.40],
+                                [0.40,0.41, 0.32, 0.42],
+                                [0.22,0.23, 0.10, 0.3],
+                                [0.40,0.41, 0.30, 0.55],
+                                [0.33,0.34, 0.30, 0.40],
+                                [0.40,0.41, 0.32, 0.42],
+                                [0.22,0.23, 0.10, 0.3],
+                                [0.40,0.41, 0.30, 0.55],
+                                [0.33,0.34, 0.30, 0.40],
+                                [0.40,0.41, 0.32, 0.42],
+                                [0.22,0.23, 0.10, 0.3],
+                                [0.40,0.41, 0.30, 0.55],
+                                [0.33,0.34, 0.30, 0.40],
+                                [0.40,0.41, 0.32, 0.42],
+                                [0.22,0.23, 0.10, 0.3],
+                                [0.40,0.41, 0.30, 0.55],
+                                [0.40,0.41, 0.32, 0.42]
+                            ],
+                            itemStyle: {
+                                    normal:{
+                                            color:'#49F676',//阳线
+                                            color0:'#49F676',//
+                                            borderColor:'#49F676',//阳线边框
+                                            borderColor0:'#49F676',//阴线边框
+                                        }
+                                    }
+                        },
+                        {
+                            name:'重要断面日统计指标',
+                            type: 'candlestick',
+                            data: [
+                                    // value:[0.40,0.40, 0.30, 0.55],
+                                [0.40,0.41, 0.32, 0.42],
+                                [0.22,0.23, 0.10, 0.3],
+                                [0.40,0.41, 0.30, 0.55],
+                                [0.40,0.41, 0.30, 0.55],
+                                [0.33,0.34, 0.30, 0.40],
+                                [0.40,0.41, 0.32, 0.42],
+                                [0.22,0.23, 0.10, 0.3],
+                                [0.40,0.41, 0.30, 0.55],
+                                [0.33,0.34, 0.30, 0.40],
+                                [0.22,0.23, 0.10, 0.3],
+                                [0.40,0.41, 0.30, 0.55],
+                                [0.33,0.34, 0.30, 0.40],   
+                                [0.22,0.23, 0.10, 0.3],
+                                [0.40,0.41, 0.32, 0.42],
+                                [0.22,0.23, 0.10, 0.3],
+                                [0.40,0.41, 0.30, 0.55],
+                                [0.33,0.34, 0.30, 0.40],
+                                [0.40,0.41, 0.32, 0.42],
+                                [0.22,0.23, 0.10, 0.3],
+                                [0.40,0.41, 0.30, 0.55],
+                                [0.33,0.34, 0.30, 0.40],
+                                [0.40,0.41, 0.32, 0.42],
+                                [0.22,0.23, 0.10, 0.3],
+                                [0.40,0.41, 0.30, 0.55],
+                                [0.33,0.34, 0.30, 0.40],
+                                [0.40,0.41, 0.32, 0.42]
+                            ],
+                            itemStyle: {
+                                    normal:{
+                                            color:'#4AC5F6',//阳线
+                                            color0:'#4AC5F6',//
+                                            borderColor:'#4AC5F6',//阳线边框
+                                            borderColor0:'#4AC5F6',//阴线边框
+                                        }
+                                    }
+                            }
+                    ],
+            };   
+        var shuangzhu = {
+                    tooltip: {
+                        show:false,
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'cross',
+                            crossStyle: {
+                                color: '#999'
+                            }
+                        }
+                    },
+                    toolbox: {
+                        show:false,
+                        feature: {
+                            dataView: {show: true, readOnly: false},
+                            magicType: {show: true, type: ['line', 'bar']},
+                            restore: {show: true},
+                            saveAsImage: {show: true}
+                        }
+                    },
+                    legend: {
+                        data:['阻尼比','频率'],
+                        textStyle: {
+                                    color: '#fff',
+                                    fontSize:24
+                                }
+                    },
+                    grid:{
+                        x: 150,
+                        y:100,
+                        x2:200,
+                        y2: 150,// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            nameTextStyle:{fontSize:'24'},
+                            data: ['甘青断面','甘宁断面','河鱼断面','高鱼断面','浙沪断面','伊冯断面','钱塘江断面','华中华北断面','吉黑断面','鄂湘断面','赤峰外送断面','苏沪断面','新疆外送断面','通辽外送断面','敦鱼断面','川渝断面','闽浙断面','苏浙断面','鄂豫断面','安徽送出断面','川藏联网断面','陕甘断面','渝鄂断面','辽吉断面','鄂赣断面','泉鱼断面'],
+                            //设置轴线的属性
+                            axisLine:{
+                                lineStyle:{
+                                    color:'#ffffff',
+                                    width:1,//这里是为了突出显示加上的
+                                }
+                            },
+                            // x轴的字体样式
+                            axisLabel: {        
+                                show: true,
+                                interval:0,  
+                                rotate:40, 
+                                textStyle: {
+                                    color: '#fff',
+                                    fontSize:24
+                                }
+                            },
+                            axisPointer: {
+                                type: 'shadow'
+                            }
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value',
+                            splitLine:{show:false},
+                            nameTextStyle:{fontSize:'24'},
+                            name: '频率',
+                            //设置轴线的属性
+                            axisLine:{
+                                lineStyle:{
+                                    color:'#ffffff',
+                                    width:1,//这里是为了突出显示加上的
+                                }
+                            },
+                            axisLabel:{
+                                    show: true,
+                                    formatter: '{value} HZ',
+                                    textStyle: {
+                                        fontSize:'24',
+                                        color: '#fff'
+                                    }
+                               },
+                            min: 0,
+                            max: 1.2,
+                            interval: 0.2,
+                        },
+                        {
+                            type: 'value',
+                            splitLine:{show:false},
+                            name: '阻尼比',
+                            nameTextStyle:{fontSize:'24'},
+                            axisLabel: {
+                                    show: true,
+                                    formatter: '{value} ',
+                                    textStyle: {
+                                        color: '#fff',
+                                        fontSize:'24'
+                                    }
+                               },
+                            //设置轴线的属性
+                            axisLine:{
+                                lineStyle:{
+                                    color:'#ffffff',
+                                    width:1,//这里是为了突出显示加上的
+                                }
+                            },
+                            min: 0,
+                            max: 25,
+                            interval: 5,
+                        }
+                    ],
+                    series: [                        
+                        {
+
+                            name:'频率',
+                            type:'bar',
+                            yAxisIndex: 1,
+                            itemStyle: {
+                            //通常情况下：
+                            normal: {
+                                //每个柱子的颜色即为colorList数组里的每一项，如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组
+                                color:'rgba(62,244,240,1)',
+                                }
+                            },
+
+                            data:[10.215,1.256,0.208,0.206,0.414,0.998,0.404,0.148,1.002,0.471,0.861,0.415,0.203,0.573,1.168,0.265,0.408,0.835,0.154,0.415,0.855,0.213,0.729,1.003,0.478,0.2]
+                        },
+                        {
+                            name:'阻尼比',
+                            type:'bar',
+                            yAxisIndex: 1,
+                            barGap:'0%',
+                            itemStyle: {
+                            //通常情况下：
+                            normal: {
+                                //每个柱子的颜色即为colorList数组里的每一项，如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组
+                                color:'rgba(60,111,247,1)',
+                                }
+                            },
+                            data:[12.505,6.764,11.378,11.831,10.198,4.67,8.195,12.186,0.148,6.426,3.958,8.195,12.459,7.749,7.916,10.615,8.672,5.456,12.185,10.938,6.365,14.723,23.065,4.756,7.942,12.317],
+                            markLine:{
+                                symbol:'none',//去掉箭头
+                                itemStyle: {
+                                    normal: { 
+                                        lineStyle: {
+                                            type: 'dashed',
+                                            // 这儿设置的颜色是公共配置，如需单独配置，请在data里配置
+                                            color: '#ff0',
+                                            width:6
+                                        }, 
+                                        label: { 
+                                            show: true,
+                                            position: 'end'
+                                                
+                                        }
+                                    },
+                                },
+                                data: [
+                                {
+                                    name: 'X 轴值为 90 的竖直线',
+                                    yAxis:5,
+                                    // 单独配置每条线的样式
+                                    lineStyle: {
+                                        color: '#BEDB29',
+                                        width:2
+                                    },
+                                    label: {
+                                        show: true,//是否展示
+                                        textStyle: {
+                                            fontWeight:'bolder',
+                                            fontSize : '22',
+                                            color:'#BEDB29',
+                                            fontFamily : '微软雅黑',
+                                        }
+                                    }
+                                }
+                            ]}
+                        }
+                    ]
+            };           
+        function setOptionKxian(rawData){
+            // 基于准备好的dom，初始化echarts实例
+            // var myChart = echarts.init(document.getElementById('bars')); 
+            var actualData =[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3] //实际值
+            var actualData2 =[4.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3] 
+            var actualData=rawData;
+            // 指定图表的配置项和数据
+            var option = {
+                    tooltip: {
+                        show:false,
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'cross',
+                            crossStyle: {
+                                color: '#999'
+                            }
+                        }
+                    },
+                    toolbox: {
+                        show:false,
+                        feature: {
+                            dataView: {show: true, readOnly: false},
+                            magicType: {show: true, type: ['line', 'bar']},
+                            restore: {show: true},
+                            saveAsImage: {show: true}
+                        }
+                    },
+                    legend: {
+                        data:['阻尼比','频率','平均阻尼比']
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            data: ['甘青断面','甘宁断面','河鱼断面','高鱼断面','浙沪断面','伊冯断面','钱塘江断面','华中华北断面','吉黑断面','鄂湘断面','赤峰外送断面','苏沪断面'],
+                            axisPointer: {
+                                type: 'shadow'
+                            }
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value',
+                            name: '频率',
+                            min: 0,
+                            max: 250,
+                            interval: 50,
+                            axisLabel: {
+                                formatter: '{value} ml'
+                            }
+                        },
+                        {
+                            type: 'value',
+                            name: '阻尼比',
+                            min: 0,
+                            max: 25,
+                            interval: 5,
+                            axisLabel: {
+                                formatter: '{value} °C'
+                            }
+                        }
+                    ],
+                    series: [
+                        {
+                            name:'阻尼比',
+                            type:'bar',
+                            barGap:'0%',
+                            data:rawData
+                        },
+                        {
+                            name:'频率',
+                            type:'bar',
+                            data:actualData2
+                        }
+                    ]
+                };  
+            // 使用刚指定的配置项和数据显示图表。
+            myChartKxian.setOption(option);  
+            window.onresize = function(){
+                myChartKxian.resize();
+            } 
+            return option;
+        }   
+
+        var myChartKxian = echarts.init(document.getElementById('kxian'));
+        myChartKxian.setOption(kxian);
+        function processingDataKxian(jsonData){
+            console.log("jsonData"+jsonData);
+            var CandlestickChartOption = setOptionKxian(jsonData);
+            myChartKxian.setOption(CandlestickChartOption);
+            // myChart.resize();
+
+        }
+
+        function setOptionShuanzhu(rawData1,rawData2){
+            // 基于准备好的dom，初始化echarts实例
+            // var myChart = echarts.init(document.getElementById('bars')); 
+            // var rawData1 =[10.215,1.256,0.208,0.206,0.414,0.998,0.404,0.148,1.002,0.471,0.861,0.415,0.203,0.573,1.168,0.265,0.408,0.835,0.154,0.415,0.855,0.213,0.729,1.003,0.478,0.2]; //实际值
+            // var rawData2 =[12.505,6.764,11.378,11.831,10.198,4.67,8.195,12.186,0.148,6.426,3.958,8.195,12.459,7.749,7.916,10.615,8.672,5.456,12.185,10.938,6.365,14.723,23.065,4.756,7.942,12.317]; 
+            // var actualData=rawData1;
+            // 指定图表的配置项和数据
+            var option = {
+                        tooltip: {
+                        show:false,
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'cross',
+                            crossStyle: {
+                                color: '#999'
+                            }
+                        }
+                    },
+                    toolbox: {
+                        show:false,
+                        feature: {
+                            dataView: {show: true, readOnly: false},
+                            magicType: {show: true, type: ['line', 'bar']},
+                            restore: {show: true},
+                            saveAsImage: {show: true}
+                        }
+                    },
+                    legend: {
+                        data:['阻尼比','频率','平均阻尼比']
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            data: ['甘青断面','甘宁断面','河鱼断面','高鱼断面','浙沪断面','伊冯断面','钱塘江断面','华中华北断面','吉黑断面','鄂湘断面','赤峰外送断面','苏沪断面','新疆外送断面','通辽外送断面','敦鱼断面','川渝断面','闽浙断面','苏浙断面','鄂豫断面','安徽送出断面','川藏联网断面','陕甘断面','渝鄂断面','辽吉断面','鄂赣断面','泉鱼断面'],
+                            axisPointer: {
+                                type: 'shadow'
+                            }
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value',
+                            name: '频率',
+                            min: 0,
+                            max: 250,
+                            interval: 50,
+                            axisLabel: {
+                                formatter: '{value} ml'
+                            }
+                        },
+                        {
+                            type: 'value',
+                            name: '阻尼比',
+                            min: 0,
+                            max: 25,
+                            interval: 5,
+                            axisLabel: {
+                                formatter: '{value} °C'
+                            }
+                        }
+                    ],
+                    series: [
+                        {
+                            name:'阻尼比',
+                            type:'bar',
+                            barGap:'0%',
+                            data:rawData1
+                        },
+                        {
+                            name:'频率',
+                            type:'bar',
+                            data:rawData2
+                        }
+                    ]
+                };  
+            // 使用刚指定的配置项和数据显示图表。
+            myChartShuangzhu.setOption(option);  
+            window.onresize = function(){
+                myChartShuangzhu.resize();
+            } 
+            return option;
+        }   
+
+        var myChartShuangzhu = echarts.init(document.getElementById('shuangzhu'));
+        myChartShuangzhu.setOption(shuangzhu);
+        function processingDataShuangzhu(jsonData1,jsonData2){
+            // console.log("jsonData"+jsonData1);
+            var CandlestickChartOption = setOptionShuanzhu(jsonData1,jsonData2);
+            myChartShuangzhu.setOption(CandlestickChartOption);
+            // myChart.resize();
+
+        }
+
+
+        var name_value;
+        var name="断面名称";
+        var aver_zuni="";
+        var total_zuni=0;
+        var aver_pl="";
+        var total_pl=0;
+     //Websocket配置 // --------------------------------------------------
+        // var point = option.series[0].data[0].Parameters;
+        var wsUri = "ws:localhost:5208";
+        var ws = new WebSocket(wsUri);
+        // console.log("point"+point);
+
+        ws.onopen = function(evt) {
+            console.log("Connection open ...");
+            ws.send("Hello WebSockets!" + Math.random());
+        };
+
+        ws.onmessage = function(evt) {
+            console.log( "Received Message: " + evt.data);
+            var message = evt.data;
+            var flags=message.split('#')[0];
+            var value1=message.split('#')[1];//value[93, 100, 60, 100, 100, 100, 100, 100]
+            
+            
+            // var staflags=message.split('#')[0];
+            // var stavalue=message.split('#')[1];
+
+            // value1=value1.replace(/\s*/g,"");
+            // console.log("value1"+value1);
+            var dataStrArr=value1.split(",");//分割成字符串数组  
+            var dataIntArr=[];//保存转换后的整型字符串  
+            dataIntArr=dataStrArr.map(item => {  
+                return +item;  
+            });  
+            // console.log("dataIntArr:::"+dataIntArr);
+            var value2;
+        
+            if('zuni'===flags){
+                processingDataShuangzhu(dataIntArr,dataIntArr);
+            }
+            if('pinlv'===flags){
+                processingDataShuangzhu(dataIntArr,dataIntArr);
+            }
+            if('stationstatus'===flags){
+                // var staarr=JSON.parse(value1);
+                // console.log('staarrrrr'+staarr);
+                var value=message.split('#')[1];//获取数据
+                value=value.substring(1,value.length-1);
+                value=value.replace(/\[/g,"");
+                value=value.replace(/\]/g,"");
+                var arr=!!value ? value.split(", ") : [];
+                initArrSize = arr.length;
+                console.log("arr.length:::"+arr.length);
+                // 清理之前接收的数据，使得数据刷新
+                Items = [];//.splice(0,Items.length);
+               
+                for (var i = 0; i<arr.length; ) {
+                    // arr[i]=arr[i].split('}')[0];
+                    // var d = new Date(arr[i]);
+                    // var t = d.getTime(d);
+                    // arr.splice(i+1,1,t);
+                    var items={"name":arr[i].split('{')[1],"value":parseInt(arr[i+1].split('}')[0])};
+                    Items.push(items);
+                    i=i+2;
+                }
+                for(var j=0;j<Items.length;j++){
+                    console.log("Items"+j+Items[j].name+','+Items[j].value);
+                    console.log('Items:::'+Items[j]);
+                }
+                processingDataGis(Items);
+            }
+                // processingDataKxian(dataIntArr,dataIntArr);
+
+             //处理接收到的数据
+        var flags=message.split('#')[0];//将标志与数据分离 
+        var value=message.split('#')[1];//获取数据
+       
+        value=value.replace(/\s/g,"");//出去空格
+        //除括号
+        value=value.replace(/\[/g,"");
+        value=value.replace(/\]/g,"");
+        value=value.split(",");//去除逗号变成数组
+        
+        //初始化一个二维数组
+        var tArray = new Array();  //先声明一维
+        for(var k=0;k<value.length/2;k++){    //一维长度为i,i为变量，可以根据实际情况改变
+ 
+            tArray[k]=new Array();  //声明二维，每一个一维数组里面的一个元素都是一个数组；
+ 
+            for(var j=0;j<2;j++){   //一维数组里面每个元素数组可以包含的数量p，p也是一个变量；
+ 
+              tArray[k][j]=k+j;    //这里将变量初始化，
+            }
+        }
+        if (flags.indexOf("断面")!=-1) {
+        //构成echarts所需要的二维数组
+        var k=0;
+        for (var i=0; i<value.length; ) {
+          tArray[k][0]=value[i];
+          tArray[k][1]=value[i+1];
+          total_zuni=total_zuni+parseFloat(value[i]);
+          total_pl=total_pl+parseFloat(value[i+1]);
+          k++;
+          i=i+2;
+        }
+        aver_zuni=total_zuni/(value.length/2);
+        aver_pl=total_pl/(value.length/2);
+        //不四舍五入就取两位
+        aver_zuni=Math.floor(aver_zuni*100)/100;
+        aver_pl=Math.floor(aver_pl*100)/100;
+        //四舍五入
+        // aver_zuni=aver_zuni.toFixed(2);
+        // aver_pl=aver_pl.toFixed(2);
+        name=flags;
+        name_value=tArray;
+        scatter_data(name,name_value);
+      }    
+            
+        };
+
+        ws.onerror = function(evt) {
+            console.log("发生了错误");
+        };
+
+        ws.onclose = function(evt) {
+            console.log("Connection closed.");
+        };     
+            
+    </script>  
+</body>
+</html>

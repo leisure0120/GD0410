@@ -1,0 +1,2384 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>国调自动化</title>
+    <!-- 引入 echarts.js -->
+    <script type="text/javascript" src="js/echarts.min.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+   <!--  <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script> -->
+    <!-- <script type="text/javascript" src="../js/echarts.js"></script> -->
+    <!-- <script type="text/javascript" src="js/jquery.min.js"></script> -->
+    <!-- <script type="text/javascript" src="../js/jquery.js"></script> -->
+    <script type="text/javascript" src="js/moment.min.js"></script>
+    <script type="text/javascript" src="js/formate.js"></script>
+    <style type="text/css">body,select,textarea {font-size:1.1em}body, html,input{font-family:"微软雅黑";}</style>
+        <style>
+        .tablebox {
+            height: 80%;
+            overflow: hidden;
+            position: relative;
+            width: 95%;
+            margin-left: 100px;
+            background-color: rgba(0, 0, 0, 1);
+        }
+        .bg {
+            background-image: url('images/wbg.png');
+            background-repeat:no-repeat; 
+            overflow: hidden; 
+            background-size:cover;
+        }
+        
+        .tbl-header {
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 999;
+            border-radius: 30px;
+        }
+
+        .tbl-body {
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 30px;
+        }
+
+        .tablebox table {
+            width: 100%;
+        }
+
+        .tablebox table th,
+        .tablebox table td {
+            font-size: 12px;
+            border: none;
+            color: #fff;
+            line-height: 45px;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+        }
+        .tb1_boody table tr {
+            border: 1;
+            border-radius: 30px;
+        }
+        .tablebox table thead tr{
+            height: 90px;
+            width:100%;
+            background-image: url('images/hbg.png');
+            background-position: center ;
+            /*background-repeat: no-repeat;*/
+            /*background-attachment: fixed;*/
+            background-size:cover;
+        }
+        .tablebox table tbody tr{
+            height: 90px;
+            width:100%;
+            background-image: url('images/wbg.png');
+            background-position: center ;
+            /*background-repeat: no-repeat;*/
+            /*background-attachment: fixed;*/
+            background-size:cover;
+        }
+        .tablebox table tr th {
+            /*z-index: 9999;*/
+            border: 0;
+            padding: 0;
+            margin: 0;
+            /*background-color: #3679A4;*/
+            cursor: pointer;
+        }
+        
+
+        /*.tablebox table tr td {
+            background-color: #07141A;
+        }*/
+        .tbl-body tr,.tbl-header tr{
+            /*background-color: yellow;*/
+            /*border:2px solid #2A5D7E;*/
+            z-index: 9999;
+        }
+        .tbl-body tr:nth-child(even) td {
+            /*background-color:red;*/
+            border: 0;
+            margin: 0;
+            padding: 0;
+        }
+        .tablebox table tr td span,
+        .tablebox table tr td span {
+            font-size: 12px;
+            border: 0;
+        }
+        /* 设置自适应表 */
+        .Fircolumn,.fircolumn {
+            width: 20%;
+        }
+        .Seccolumn,.seccolumn {
+            width: 8%;
+        }
+        .Thrcolumn,.thrcolumn {
+            width: 50%;
+        }
+        .Foucolumn,.foucolumn {
+            width: 10%;
+        }
+        .Fivcolumn,.fivcolumn {
+            width: 12%;
+        }
+        td img{float: left;margin-top: 60px;line-height: 45px;vertical-align: middle;}
+    </style>
+</head>
+<body style="height: 2160px;width: 3840px;background-color: #000;margin: 0;border:none;padding: 0">
+    
+    <div id="sgssgw" style="width:100%;border:none;margin: 0;padding: 0">
+        <div style="background-color: black;border:none; width: 50%;text-align:center;line-height:139px;vertical-align: right;float: left;border-bottom: 1px solid #414141;">
+            <span style="color: #FBFCFE;font-size: 48px;border:none;">服务器</span>
+            <span id="sgs" style="font-family: DigifaceWide;font-size:64px;color: #45E9FE;border:none;">203</span><span style="font-family: DigifaceWide;font-size:64px;color: #45E9FE;border:none;">台</span>
+        </div>
+        <div style="background-color: black;border:none;width: 50%;text-align:center;line-height:139px;vertical-align: middle;float: left;border-bottom: 1px solid #414141;">
+            <span style="color: #FBFCFE;font-size: 48px;border:none;">工作站</span>
+            <span id="sgw" style="font-family: DigifaceWide;font-size:64px;color: #45E9FE;border:none;">230</span><span style="font-family: DigifaceWide;font-size:64px;color: #45E9FE;border:none;">台</span>
+        </div>
+    </div>
+    <div id="titles" style="display:block;width: 100%;background-color: #414141;margin: 0;border: none;padding: 0;">
+            <div id="radartitle" style="background: black;width: 1300px;float: left;margin: 0;border: none;padding: 0;">
+                <img src="images/titlepic.png" style="padding-left: 80px;">
+                <span style="font-size: 48px;color: white;vertical-align: super;">自动化系统综合监视</span>
+            </div>
+            <div id="bars1title" style="background: black;width:846px ;height:100%;position: relative;float: left;margin: 0;border: none;padding: 0">
+                <img src="images/titlepic.png">
+                <span style="font-size: 48px;color: white;vertical-align: super;">磁盘Top10</span>
+            </div>
+            <div id="bars2title" style="background: black;width:846px ;height:100%;position: relative;float: left;margin: 0;border: none;padding: 0">
+                <img src="images/titlepic.png">
+                <span style="font-size: 48px;color: white;vertical-align: super;">CPU Top10</span>
+            </div>
+            <div id="bars3title" style="background: black;width:846px;height:100%;position: relative;float: left;margin: 0;border: none;padding: 0">
+                <img src="images/titlepic.png">
+                <span style="font-size: 48px;color: white;vertical-align: super;">内存Top10</span>
+            </div>
+            
+    </div>
+    <div id="box" style="    overflow: auto;width: 100%;background-color:black;margin: 0;border: none;padding: 0;">
+        <div style="display: block;height: 935px;">
+            <div id="" style="height:100%;width: 1300px;float: left;margin: 0;border: none;border-bottom:1px solid #000;padding: 0;">
+                <canvas id="zhu" style="background-color:black;height:100%;width:100px;float: left;border: none;padding-left: 100px;"></canvas>
+                <div  id="main" style="background-color:black;height:100%;width:1100px;float: left;border: none;padding: 0;"></div>
+            </div>
+            <div id="3bars" style="height:100%;width: 2540px;float:left;margin: 0;border: none;padding: 0">
+                <div id="bars1" style="width:33% ;height:100%;position: relative;float: left;margin: 0;border: none;padding: 0"></div>
+                <div id="bars2" style="width:33% ;height:100%;position: relative;float: left;margin: 0;border: none;padding: 0"></div>
+                <div id="bars3" style="width:34% ;height:100%;position: relative;float: left;margin: 0;border: none;padding: 0"></div>
+            </div>
+        </div>
+        <div>
+            <div id="roll" style="height: 980px;width: 1920px;float: left;overflow: hidden;position: absolute;   bottom:410px; background: black;" >
+                <!-- <img src="images/roll-bg.png" width="100%" height="100%" /> -->
+                    <div style="margin-left: 100px;">
+                        <div id="bars3title" style="background: black;width:400px;height:100%;position: relative;float: left;margin: 0;border: none;padding: 0">
+                            <img src="images/titlepic.png">
+                            <span style="font-size: 48px;color: white;vertical-align: super;">告警列表</span>
+                        </div>
+                        <div style="background: black;width:1000px;height:100%;position: relative;float: left;margin: 0;border: none;padding: 0">
+                            <span style="line-height: 110px;color: red;float: left;" >总数：</span>
+                            <span id="total" style="line-height: 110px;color: red;float: left;"></span>&nbsp;&nbsp;
+                            <span style="line-height: 110px;color: red;float: left;" >紧急：</span>
+                            <span id="exigency" style="line-height: 110px;color: red;float: left;"></span>&nbsp;&nbsp;
+                            <span style="line-height: 110px;color: orange;float:left;margin-left: 70px;">重要：</span>
+                            <span id="important" style="line-height: 110px;color: orange;float: left;"></span>&nbsp;&nbsp;
+                            <span style="line-height: 110px;color: green;float: left;margin-left: 70px;">一般：</span>
+                            <span id="common" style="line-height: 110px;color: green;float: left;"></span>
+                        </div>
+                    </div>
+                    <div class="tablebox">
+                        <div class="tbl-header">
+                            <table  cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th class="Fircolumn">扫描时间</th>
+                                    <th class="Seccolumn">类型</th>
+                                    <th class="Thrcolumn">内容</th>
+                                    <th class="Foucolumn">级别</th>
+                                    <th class="Fivcolumn">处理时间</th>
+                                </tr>
+                                </thead>
+                                <tbody style="opacity:0;"></tbody>
+                            </table>
+                        </div>
+
+                        <div class="tbl-body">
+                            <table border="0" cellspacing="0" >
+                                <thead>
+                                <tr>
+                                    <th class="fircolumn">扫描时间</th>
+                                    <th class="seccolumn">类型</th>
+                                    <th class="thrcolumn">内容</th>
+                                    <th class="foucolumn">级别</th>
+                                    <th class="fivcolumn">处理时间</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+            </div>
+            <div id="bars" style="height:980px;width: 1920px;margin: 0;border: 0;padding: 0;float: right;"></div>
+        </div>
+    </div>
+    
+    
+</body>
+    <script type="text/javascript">
+                    // $(document).ready(function(){
+                        // var c=document.getElementById("drawbox");
+                        // var draw=c.getContext("2d");        //获取2d内容的引用，调用绘图API
+                        // //指定渐变区块
+                        // var grd=draw.createLinearGradient(50,50,18,357); //坐标，长宽
+                        // grd.addColorStop(0,"green");  //起点颜色
+                        // grd.addColorStop(1,"red");        //终点颜色
+                        // draw.fillStyle=grd;                //设为填充样式
+                        // draw.fillRect(50,50,18,357);    //填充进矩形内
+                    // });
+    </script>
+    
+    <script type="text/javascript">
+        var score;
+        var color;
+        var optionradar = {//雷达图的配置
+                borderwidth:0,
+                backgroundColor: 'rgba(0,0,0,1 )',
+                title: {
+                    text: '88',
+                    x: 'center',
+                    y: 'center',
+                    textStyle: {
+                        color: '#00FF00',
+                        fontWeight: 'bolder',
+                        fontSize: 64,
+
+                    }
+                },
+                exporting: {//右上角导出
+                    show:false
+                },
+                tooltip : {
+                    show:false,
+                    trigger: 'axis'
+                },
+                legend: {//图例
+                    show:false,
+                    orient : 'vertical',
+                    x : 'right',
+                    y : 'bottom',
+                    data:['综合指标']
+                },
+                toolbox: {//右上角工具盒
+                    show : false,
+                    feature : {
+                        mark : {show: false},
+                        dataView : {show: false, readOnly: false},
+                        restore : {show: false},
+                        saveAsImage : {show: false}
+                    }
+                },
+                calculable: true,
+                animation:true,
+                radar : [
+                   {
+                        indicator : [
+                            { text: '进程状态', max: 100},
+                            { text: 'EMS链路', max: 100},
+                            { text: 'WAMS链路', max: 100},
+                            { text: '应用', max: 100},
+                            { text: '网卡', max: 100},
+                            { text: '磁盘', max: 100},
+                            { text: 'CPU', max: 100},
+                            { text: '内存', max: 100}
+                        ],
+                        // shape: 'circle',//雷达图形式，环形或多边形
+                        splitNumber: 5,//雷达图圈数
+                        //外圈字体的颜色
+                        name: {
+                            formatter:(value)=>{
+                                value=value.replace(/\S{4}/g,function(match){
+                                    return match+'\n'
+                                })
+                                return value
+                            },
+                            textStyle: {
+                                color: '#EBEBEB',
+                                fontSize:32,
+                            },
+
+                        },
+                        // 设置雷达图中间射线的颜色        
+                        axisLine: {
+                            lineStyle: {
+                                color: [
+                                'rgba(0,0,0,1)',
+                                // 'rgba(9,153,177,1)',
+                                // 'rgba(10,112,137,1)',
+                                // 'rgba(8,66,90,1)', // 图表背景的颜色
+                                // 'rgba(9,153,177,1)',
+                                // 'rgba(10,112,137,1)',
+                                // 'rgba(8,66,90,1)', 
+                                //,'rgba(10,65,85,0.8)','rgba(10,65,85,0.8)','rgba(10,65,85,0.8)','rgba(10,65,85,0.8)'
+                                ]
+                                },
+                        },
+                        axisLabel: {           // 坐标轴文本标签，详见axis.axisLabel
+                            show: false,
+                            fontSize: 20,
+                            // formatter: null,
+                            textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                                color: '#ccc'
+                            }
+                        },
+                        //雷达图背景的颜色，在这儿随便设置了一个颜色，完全不透明度为0，就实现了透明背景
+                        splitArea : {
+                            show : true,
+                            areaStyle : {
+                                color : ['rgba(0,0,0,0)',
+                                'rgba(9,153,177,1)',
+                                'rgba(10,112,137,1)',
+                                'rgba(8,66,90,1)', // 图表背景的颜色
+                                 // 设置网格的颜色
+                                'rgba(3,26,40,.8)'
+                                ]
+                            },
+                        },
+                        //雷达图每圈的线的颜色
+                        splitLine : {
+                            show : true,
+                            lineStyle : {
+                                width : 2,
+                                color: [
+                                'rgba(5,62,81,.8)',
+                                'rgba(5,62,81,.8)',
+                                'rgba(99,220,251,1)',
+                                'rgba(5,62,81,.8)',
+                                ] 
+
+                            },
+                        }
+                    },
+                ],
+                series : [
+                    {
+                        name: '综合指标雷达图',
+                        type: 'radar',
+                        radius:'40%',
+                        center:['40%','50%'],
+                        data : [
+                             {
+                                value:[90, 93, 100, 70, 100, 80, 100, 90],
+                                name : '实际数值',
+                                symbol: 'circle', //设置拐点格式样式 如:实心圆，空心圆或不显示拐点等
+                                itemStyle: {
+                                    normal: {
+                                        lineStyle: {
+                                            color :"#000", //设置拐点颜色
+                                            width : 0 //设置各个拐点连接的线条宽度
+                                        },
+                                    }
+                                },
+                                symbolSize :10, //设置各个拐点的大小
+                                lineStyle:{
+                                            type:'dashed',
+                                            width : 4,
+                                            symbol: 'circle',
+                                              itemStyle: {
+                                                normal: {
+                                                    color: "#000",
+                                                    borderColor: '#f58f23',
+                                                    borderWidth:4,
+                                                }
+                                              }, 
+                                        },
+                                label: {
+                                            show: true,
+                                            textStyle:{
+                                                fontSize:32,
+                                            },
+                                            
+                                            formatter:function(params) {
+                                                return params.value;
+                                            }
+                                        },
+                                itemStyle: {
+                                    normal: {
+                                        color: 'rgba(0,255,0,.9)',
+                                        areaStyle: {
+                                                   // type: 'default',
+                                                    opacity: 0.8, // 图表中各个图区域的透明度
+                                                    color: "#1686c2", // 图表中各个图区域的颜色
+                                                    color : 'rgba(5,62,81,.8)', // 设置网格的颜色
+                                                    color : 'rgba(5,44,61,.8)',
+                                                    color : 'rgba(3,26,40,.8)',
+
+                                            },
+                                       
+                                        
+                                        }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            };
+            // option.title.text=128;
+        function setOption1(rawData){
+            // var valuew=[77,93,100,70,100,80,100,90]
+                var valuew=rawData;
+                // var score=scores;
+            // 指定图表的配置项和数据
+                var optionradarreal = {
+                borderwidth:0,
+                backgroundColor: 'rgba(0,0,0,1 )',
+                title: {
+                    text:score,
+                    x: 'center',
+                    y: 'center',
+                    textStyle: {
+                        color: color,
+                        fontWeight: 'bolder',
+                        fontSize: 64,
+
+                    }
+                },
+                exporting: {//右上角导出
+                    show:false
+                },
+                tooltip : {
+                    show:false,
+                    trigger: 'axis'
+                },
+                legend: {//图例
+                    show:false,
+                    orient : 'vertical',
+                    x : 'right',
+                    y : 'bottom',
+                    data:['综合指标']
+                },
+                toolbox: {//右上角工具盒
+                    show : false,
+                    feature : {
+                        mark : {show: false},
+                        dataView : {show: false, readOnly: false},
+                        restore : {show: false},
+                        saveAsImage : {show: false}
+                    }
+                },
+                calculable: true,
+                animation:true,
+                radar : [
+                   {
+                        indicator : [
+                            { text: '进程状态', max: 100},
+                            { text: 'EMS链路', max: 100},
+                            { text: 'WAMS链路', max: 100},
+                            { text: '应用', max: 100},
+                            { text: '网卡', max: 100},
+                            { text: '磁盘', max: 100},
+                            { text: 'CPU', max: 100},
+                            { text: '内存', max: 100}
+                        ],
+                        // shape: 'circle',//雷达图形式，环形或多边形
+                        splitNumber: 5,//雷达图圈数
+                        //外圈字体的颜色
+                        name: {
+                            // formatter:'{value}',
+                            formatter:(value)=>{
+                                value=value.replace(/\S{4}/g,function(match){
+                                    return match+'\n'
+                                })
+                                return value
+                            },
+                            textStyle: {
+                                color: '#EBEBEB',
+                                fontSize:32,
+                            },
+
+                        },
+                        // 设置雷达图中间射线的颜色        
+                        axisLine: {
+                            lineStyle: {
+                                color: [
+                                'rgba(0,0,0,1)',
+                                ]
+                                },
+                        },
+                        axisLabel: {           // 坐标轴文本标签，详见axis.axisLabel
+                            show: false,
+                            fontSize: 20,
+                            // formatter: null,
+                            textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                                color: '#ccc'
+                            }
+                        },
+                        //雷达图背景的颜色，在这儿随便设置了一个颜色，完全不透明度为0，就实现了透明背景
+                        splitArea : {
+                            show : true,
+                            areaStyle : {
+                                color : ['rgba(0,0,0,0)',
+                                'rgba(9,153,177,1)',
+                                'rgba(10,112,137,1)',
+                                'rgba(8,66,90,1)', // 图表背景的颜色
+                                
+                                 // 设置网格的颜色
+                                
+                                'rgba(3,26,40,.8)'
+                                ]
+                            },
+                        },
+                        //雷达图每圈的线的颜色
+                        splitLine : {
+                            show : true,
+                            lineStyle : {
+                                width : 2,
+                                color: [
+
+                                'rgba(5,62,81,.8)',
+                                'rgba(5,62,81,.8)',
+                                'rgba(99,220,251,1)',
+                                'rgba(5,62,81,.8)',
+                                      
+                                ] 
+
+                            },
+                        }
+                    },
+                ],
+                series : [
+                    {
+                        name: '综合指标雷达图',
+                        type: 'radar',
+                        data : [
+                             {
+                                value:valuew,
+                                name : '实际数值',
+                                 symbol: 'circle', //设置拐点格式样式 如:实心圆，空心圆或不显示拐点等
+                                itemStyle: {
+                                    normal: {
+                                        lineStyle: {
+                                            color :"#000", //设置拐点颜色
+                                            width : 0 //设置各个拐点连接的线条宽度
+                                        },
+                                    }
+                                },
+                                symbolSize :10, //设置各个拐点的大小
+                                lineStyle:{
+                                            type:'dashed',
+                                            width : 4,
+                                        },
+                                label: {
+                                            show: true,
+                                            textStyle:{
+                                                fontSize:32,
+                                            },
+                                            formatter:function(params) {
+                                                return params.value;
+                                            }
+                                        },
+                                itemStyle: {
+                                    normal: {
+                                        color: color,
+                                        areaStyle: {
+                                                   // type: 'default',
+                                                    opacity: 0.8, // 图表中各个图区域的透明度
+                                                    color: "#1686c2", // 图表中各个图区域的颜色
+                                                    color : 'rgba(5,62,81,.8)', // 设置网格的颜色
+                                                    color : 'rgba(5,44,61,.8)',
+                                                    color : 'rgba(3,26,40,.8)',
+
+                                            },
+                                        
+                                        
+                                        }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            };
+             window.onresize = function(){
+                    radar.resize();
+                }
+            return optionradarreal;
+        }
+
+        // 使用刚指定的配置项和数据显示图表。
+        // myChart.setOption(option);  
+        // 基于准备好的dom，初始化echarts实例
+        var radar = echarts.init(document.getElementById('main'));
+        radar.setOption(optionradar);
+ 
+        function processingData1(jsonData){
+            $(document).ready(function(){
+            var c=document.getElementById("zhu");
+            var draw=c.getContext("2d");        //获取2d内容的引用，调用绘图API
+            //指定渐变区块
+            var grd=draw.createLinearGradient(75,25,80,100); //坐标，长宽
+            grd.addColorStop(0,"rgba(0,183,66,1)");  //起点颜色
+            grd.addColorStop(0.6,"rgba(114,122,42,1)");
+            grd.addColorStop(1,"rgba(255,4,0,1)");        //终点颜色
+            draw.fillStyle=grd;                //设为填充样式
+            draw.fillRect(75,25,80,100);    //填充进矩形内
+        });
+            // //console.log("jsonData"+jsonData);
+            var CandlestickChartOption = setOption1(jsonData);
+            radar.setOption(CandlestickChartOption);
+            
+            // myChart.resize();
+
+        }
+
+        var single=[99.9,89,87,87,87,85,84,84,81,81];
+        var warningData = [ 50,50,50,50,50,50,50,50,50,50]; //预警值
+        var warningData2 = [ 99,99,99,99,99,99,99,99,99,99]; //预警值
+        var warningData3 = [ 90,90,90,90,90,90,90,90,90,90];
+        var optionbar1 = {//top10
+                    backgroundColor: 'rgba(0,0,0,1 )',
+                    calculable : true,
+                    xAxis : [
+                        {   type : 'value',
+                            splitNumber: 2,
+                            scale: false,
+                            show:false,
+                            splitLine:{
+                                show:false
+                            }
+                        },
+                    ],
+                    yAxis : [
+                        {
+                            type : 'category',
+                            data : ['sgs1-adm1','sgs1-adm1','sgs1-adm1','sgs1-adm1','sgs1-adm1','sgs1-adm55','sgs1-adm1','sgs1-adm1','sgs1-adm1','sgs1-adm88'],
+                            splitNumber: 2,
+                            scale: true,
+                            show:true,
+                            axisTick:{
+                                show:false
+                            },
+                            axisLabel : {
+                                textStyle: {
+                                    color: '#ffffff',
+                                    fontSize:32
+                                }
+                            },
+                            splitLine:{
+                                show:false
+                            }
+                        }
+                    ],
+                    grid: {
+                        show:'true',
+                        borderWidth:'0',
+                        x:200
+                    },
+                    series : [
+                        {
+                            type: 'bar',
+                            itemStyle: {
+                                normal: {
+                                    barBorderRadius:[0, 10, 10, 0],
+                                    color: 'rgba(13,22,87,1)'
+                                }
+                            },
+                            silent: true,
+                            barWidth: 40,
+                            barGap: '-100%', // Make series be overlap
+                            data: [100,100,100,100,100,100,100,100,100,100]
+                        }, 
+                        {
+                            name:'磁盘',
+                            type:'bar',
+                            barWidth: 40,
+                            tooltip:{show:false},
+                            data:single,  
+                            itemStyle: {
+                                //柱形图圆角，鼠标移上去效果，如果只是一个数字则说明四个参数全部设置为那么多
+                                emphasis: {
+                                    barBorderRadius: 30
+                                },
+                                normal: {
+                                    color: function(params) {//超过预警值显示红色
+                                        if (single[params.dataIndex] > warningData2[params.dataIndex]) {
+                                            return '#D42200';
+                                        }else if(single[params.dataIndex] > warningData3[params.dataIndex]){
+                                            return '#BEDB29';
+                                        }else{
+                                            return '#029CB9';
+                                        }
+                                    },
+                                    // color:'#045B28',
+                                    //柱形图圆角，初始化效果
+                                    barBorderRadius:[0, 10, 10, 0],
+                                    label: {
+                                        show: true,//是否展示
+                                        textStyle: {
+                                            fontWeight:'bolder',
+                                            fontSize : '22',
+                                            color:'#F9FBFC',
+                                            fontFamily : '微软雅黑',
+                                        }
+                                    }
+                                }
+                            },
+                            markLine:{
+                                symbol:'none',//去掉箭头
+                                itemStyle: {
+                                    normal: { 
+                                        lineStyle: {
+                                            type: 'dashed',
+                                            // 这儿设置的颜色是公共配置，如需单独配置，请在data里配置
+                                            color: '#ff0',
+                                            width:3
+                                        }, 
+                                        label: { 
+                                            show: true,
+                                            position: 'end'
+                                                
+                                        }
+                                    },
+                                },
+                                data: [
+                                // {
+                                //     name: 'X 轴值为 99 的竖直线',
+                                //     xAxis: 99,
+                                //     // 单独配置每条线的样式
+                                //     // 单独配置每条线的样式
+                                //     lineStyle: {
+                                //         color: '#FF0000',
+                                //         width:2
+                                //     },
+                                //     label: {
+                                //         show: true,//是否展示
+                                //         textStyle: {
+                                //             fontWeight:'bolder',
+                                //             fontSize : '22',
+                                //             color:'#FF0000',
+                                //             fontFamily : '微软雅黑',
+                                //         }
+                                //     }
+                                // },
+                                {
+                                    name: 'X 轴值为 90 的竖直线',
+                                    xAxis: 90,
+                                    // 单独配置每条线的样式
+                                    lineStyle: {
+                                        color: '#BEDB29',
+                                        width:2
+                                    },
+                                    label: {
+                                        show: true,//是否展示
+                                        textStyle: {
+                                            fontWeight:'bolder',
+                                            fontSize : '22',
+                                            color:'#BEDB29',
+                                            fontFamily : '微软雅黑',
+                                        }
+                                    }
+                                }
+                            ]}
+                        }
+                    ]
+                }; 
+        var optionbar2 = {//top10
+                    backgroundColor: 'rgba(0,0,0,1 )',
+                    calculable : true,
+                    xAxis : [
+                        {   type : 'value',
+                            splitNumber: 2,
+                            scale: false,
+                            show:false,
+                            splitLine:{
+                                show:false
+                            }
+                        },
+                    ],
+                    yAxis : [
+                        {
+                            type : 'category',
+                            data : ['sgs1-adm1','sgs1-adm1','sgs1-adm1','sgs1-adm1','sgs1-adm1','sgs1-adm55','sgs1-adm1','sgs1-adm1','sgs1-adm1','sgs1-adm88'],
+                            splitNumber: 2,
+                            scale: true,
+                            show:true,
+                            axisTick:{
+                                show:false
+                            },
+                            axisLabel : {
+                                textStyle: {
+                                    color: '#ffffff',
+                                    fontSize:32
+                                }
+                            },
+                            splitLine:{
+                                show:false
+                            }
+                        }
+                    ],
+                    grid: {
+                        show:'true',
+                        borderWidth:'0',
+                        x:200
+                    },
+                    series : [
+                        {
+                            type: 'bar',
+                            itemStyle: {
+                                normal: {
+                                    barBorderRadius:[0, 10, 10, 0],
+                                    color: 'rgba(13,22,87,1)'
+                                }
+                            },
+                            silent: true,
+                            barWidth: 40,
+                            barGap: '-100%', // Make series be overlap
+                            data: [100,100,100,100,100,100,100,100,100,100]
+                        }, 
+
+                        {
+                            name:'磁盘',
+                            type:'bar',
+                            barWidth: 40,
+                            tooltip:{show:false},
+                            data:single,  
+                            itemStyle: {
+                                //柱形图圆角，鼠标移上去效果，如果只是一个数字则说明四个参数全部设置为那么多
+                                emphasis: {
+                                    barBorderRadius: 30
+                                },
+                                normal: {
+                                    color: function(params) {//超过预警值显示红色
+                                        // if(actualData[params.dataIndex]>warningData2[params.dataIndex]){
+                                        //     return 'red';
+                                        // } else 
+                                        if (single[params.dataIndex] > warningData2[params.dataIndex]) {
+                                            return '#D42200';
+                                        }else if(single[params.dataIndex] > warningData[params.dataIndex]){
+                                            return '#BEDB29';
+                                        }else{
+                                            return '#029CB9';
+                                        }
+                                    },
+                                    // color:'#045B28',
+                                    //柱形图圆角，初始化效果
+                                    barBorderRadius:[0, 10, 10, 0],
+                                    label: {
+                                        show: true,//是否展示
+                                        textStyle: {
+                                            fontWeight:'bolder',
+                                            fontSize : '22',
+                                            color:'#F9FBFC',
+                                            fontFamily : '微软雅黑',
+                                        }
+                                    }
+                                }
+                            },
+                            markLine:{
+                                symbol:'none',//去掉箭头
+                                itemStyle: {
+                                    normal: { 
+                                        lineStyle: {
+                                            type: 'dashed',
+                                            // 这儿设置的颜色是公共配置，如需单独配置，请在data里配置
+                                            color: '#ff0',
+                                            width:3
+                                        }, 
+                                        label: { 
+                                            show: true,
+                                            position: 'end'
+                                                
+                                        }
+                                    },
+                                },
+                                data: [
+                                // {
+                                //     name: 'X 轴值为 99 的竖直线',
+                                //     xAxis: 99,
+                                //     // 单独配置每条线的样式
+                                //     // 单独配置每条线的样式
+                                //     lineStyle: {
+                                //         color: '#A86739',
+                                //         width:2
+                                //     },
+                                //     label: {
+                                //         show: true,//是否展示
+                                //         textStyle: {
+                                //             fontWeight:'bolder',
+                                //             fontSize : '22',
+                                //             color:'#A86739',
+                                //             fontFamily : '微软雅黑',
+                                //         }
+                                //     }
+                                // },
+                                {
+                                    name: 'X 轴值为 50 的竖直线',
+                                    xAxis: 50,
+                                    // 单独配置每条线的样式
+                                    lineStyle: {
+                                        color: '#FFFF00',
+                                        width:2
+                                    },
+                                    label: {
+                                        show: true,//是否展示
+                                        textStyle: {
+                                            fontWeight:'bolder',
+                                            fontSize : '22',
+                                            color:'#BEDB29',
+                                            fontFamily : '微软雅黑',
+                                        }
+                                    }
+                                }
+                            ]}
+                        }
+                    ]
+                }; 
+        var optionbar3 = {//top10
+                    backgroundColor: 'rgba(0,0,0,1 )',
+                    calculable : true,
+                    xAxis : [
+                        {   type : 'value',
+                            splitNumber: 2,
+                            scale: false,
+                            show:false,
+                            splitLine:{
+                                show:false
+                            }
+                        },
+                    ],
+                    yAxis : [
+                        {
+                            type : 'category',
+                            data : ['sgs1-adm1','sgs1-adm1','sgs1-adm1','sgs1-adm1','sgs1-adm1','sgs1-adm55','sgs1-adm1','sgs1-adm1','sgs1-adm1','sgs1-adm88'],
+                            splitNumber: 2,
+                            scale: true,
+                            show:true,
+                            axisTick:{
+                                show:false
+                            },
+                            axisLabel : {
+                                textStyle: {
+                                    color: '#ffffff',
+                                    fontSize:32
+                                }
+                            },
+                            splitLine:{
+                                show:false
+                            }
+                        }
+                    ],
+                    grid: {
+                        show:'true',
+                        borderWidth:'0',
+                        x:200
+                    },
+                    series : [
+                        {
+                            type: 'bar',
+                            itemStyle: {
+                                normal: {
+                                    barBorderRadius:[0, 10, 10, 0],
+                                    color: 'rgba(13,22,87,1)'
+                                }
+                            },
+                            silent: true,
+                            barWidth: 40,
+                            barGap: '-100%', // Make series be overlap
+                            data: [100,100,100,100,100,100,100,100,100,100]
+                        }, 
+
+                        {
+                            name:'磁盘',
+                            type:'bar',
+                            barWidth: 40,
+                            tooltip:{show:false},
+                            data:single,  
+                            itemStyle: {
+                                //柱形图圆角，鼠标移上去效果，如果只是一个数字则说明四个参数全部设置为那么多
+                                emphasis: {
+                                    barBorderRadius: 30
+                                },
+                                normal: {
+                                    color: function(params) {//超过预警值显示红色
+                                        if (single[params.dataIndex] > warningData2[params.dataIndex]) {
+                                            return '#D42200';
+                                        }else if(single[params.dataIndex] > warningData[params.dataIndex]){
+                                            return '#BEDB29';
+                                        }else{
+                                            return '#029CB9';
+                                        }
+                                    },
+                                    // color:'#045B28',
+                                    //柱形图圆角，初始化效果
+                                    barBorderRadius:[0, 10, 10, 0],
+                                    label: {
+                                        show: true,//是否展示
+                                        textStyle: {
+                                            fontWeight:'bolder',
+                                            fontSize : '22',
+                                            color:'#F9FBFC',
+                                            fontFamily : '微软雅黑',
+                                        }
+                                    }
+                                }
+                            },
+                            markLine:{
+                                symbol:'none',//去掉箭头
+                                itemStyle: {
+                                    normal: { 
+                                        lineStyle: {
+                                            type: 'dashed',
+                                            // 这儿设置的颜色是公共配置，如需单独配置，请在data里配置
+                                            color: '#ff0',
+                                            width:3
+                                        }, 
+                                        label: { 
+                                            show: true,
+                                            position: 'end'
+                                                
+                                        }
+                                    },
+                                },
+                                data: [
+                                // {
+                                //     name: 'X 轴值为 99 的竖直线',
+                                //     xAxis: 99,
+                                //     // 单独配置每条线的样式
+                                //     // 单独配置每条线的样式
+                                //     lineStyle: {
+                                //         color: '#FF0000',
+                                //         width:2
+                                //     },
+                                //     label: {
+                                //         show: true,//是否展示
+                                //         textStyle: {
+                                //             fontWeight:'bolder',
+                                //             fontSize : '22',
+                                //             color:'#FF0000',
+                                //             fontFamily : '微软雅黑',
+                                //         }
+                                //     }
+                                // },
+                                {
+                                    name: 'X 轴值为 50 的竖直线',
+                                    xAxis: 50,
+                                    // 单独配置每条线的样式
+                                    lineStyle: {
+                                        color: '#BEDB29',
+                                        width:2
+                                    },
+                                    label: {
+                                        show: true,//是否展示
+                                        textStyle: {
+                                            fontWeight:'bolder',
+                                            fontSize : '22',
+                                            color:'#BEDB29',
+                                            fontFamily : '微软雅黑',
+                                        }
+                                    }
+                                }
+                            ]}
+                        }
+                    ]
+                }; 
+        // top10
+        function setOption2(single,double){
+            // 基于准备好的dom，初始化echarts实例
+            var myChart1 = echarts.init(document.getElementById('bars1'));
+            // var actualData =[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 35.6, 62.2, 32.6, 20.0]; //实际值
+            var warningData = [ 90,90,90,90,90,90,90,90,90,90]; //预警值
+            var warningData2 = [ 99,99,99,99,99,99,99,99,99,99]; //预警值
+            // 指定图表的配置项和数据
+            var bar1 = {
+                    backgroundColor: 'rgba(0,0,0,1 )',
+                    calculable : true,
+                    xAxis : [
+                        {   type : 'value',
+                            splitNumber: 2,
+                            scale: false,
+                            show:false,
+                            splitLine:{
+                                show:false
+                            }
+                        },
+                    ],
+                    yAxis : [
+                        {
+                            type : 'category',
+                            data : double,
+                            splitNumber: 2,
+                            scale: true,
+                            show:true,
+                            axisTick:{
+                                show:false
+                            },
+                            axisLabel : {
+                                textStyle: {
+                                    color: '#ffffff',
+                                    fontSize:32
+                                }
+                            },
+                            splitLine:{
+                                show:false
+                            }
+                        }
+                    ],
+                    grid: {
+                        show:'true',
+                        borderWidth:'0',
+                        x:200
+                    },
+                    series : [
+                        {
+                            type: 'bar',
+                            itemStyle: {
+                                normal: {
+                                    barBorderRadius:[0, 10, 10, 0],
+                                    color: 'rgba(13,22,87,1)'
+                                }
+                            },
+                            silent: true,
+                            barWidth: 40,
+                            barGap: '-100%', // Make series be overlap
+                            data: [100,100,100,100,100,100,100,100,100,100]
+                        }, 
+
+                        {
+                            name:'磁盘',
+                            type:'bar',
+                            tooltip:{show:false},
+                            data:single,  
+                            itemStyle: {
+                                //柱形图圆角，鼠标移上去效果，如果只是一个数字则说明四个参数全部设置为那么多
+                                emphasis: {
+                                    barBorderRadius: 30
+                                },
+                                normal: {
+                                    color: function(params) {//超过预警值显示红色
+                                        if (single[params.dataIndex] > warningData2[params.dataIndex]) {
+                                            return '#D42200';
+                                        }else if(single[params.dataIndex] > warningData[params.dataIndex]){
+                                            return '#BEDB29';
+                                        }else{
+                                            return '#029CB9';
+                                        }
+                                    },
+                                    // color:'#045B28',
+                                    //柱形图圆角，初始化效果
+                                    barBorderRadius:[0, 10, 10, 0],
+                                    label: {
+                                        show: true,//是否展示
+                                        textStyle: {
+                                            fontWeight:'bolder',
+                                            fontSize : '22',
+                                            color:'#F9FBFC',
+                                            fontFamily : '微软雅黑',
+                                        }
+                                    }
+                                }
+                            },
+                            markLine:{
+                                symbol:'none',//去掉箭头
+                                itemStyle: {
+                                   normal: { 
+                                        lineStyle: {
+                                            type: 'dashed',
+                                            // 这儿设置的颜色是公共配置，如需单独配置，请在data里配置
+                                            color: '#ff0',
+                                            width:3
+                                        }, 
+                                        label: { 
+                                            show: true,
+                                            position: 'end'
+                                                
+                                        }
+                                    },
+                                },
+                                data: [
+                                // {
+                                //     name: 'X 轴值为 99 的竖直线',
+                                //     xAxis: 99,
+                                //     // 单独配置每条线的样式
+                                //     lineStyle: {
+                                //         color: '#FF0000',
+                                //         width:2
+
+                                //     },
+                                //     label: {
+                                //         show: true,//是否展示
+                                //         textStyle: {
+                                //             fontWeight:'bolder',
+                                //             fontSize : '22',
+                                //             color:'#FF0000',
+                                //             fontFamily : '微软雅黑',
+                                //         }
+                                //     }
+                                // },
+                                {
+                                    name: 'X 轴值为 90 的竖直线',
+                                    xAxis: 90,
+                                    // 单独配置每条线的样式
+                                    lineStyle: {
+                                        color: '#BEDB29',
+                                        width:2
+
+                                    },
+                                    label: {
+                                        show: true,//是否展示
+                                        textStyle: {
+                                            fontWeight:'bolder',
+                                            fontSize : '22',
+                                            color:'#BEDB29',
+                                            fontFamily : '微软雅黑',
+                                        }
+                                    }
+                                }
+                            ]}
+                        }
+                    ]
+                };  
+                // 使用刚指定的配置项和数据显示图表。
+                myChart1.setOption(bar1); 
+                window.onresize = function(){
+                    myChart1.resize();
+                } 
+                return bar1;
+        }   
+        function setOption22(single,double){
+            // 基于准备好的dom，初始化echarts实例
+            var myChart2 = echarts.init(document.getElementById('bars2'));
+            // var actualData =[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 35.6, 62.2, 32.6, 20.0]; //实际值
+            var warningData = [ 50,50,50,50,50,50,50,50,50,50]; //预警值
+            var warningData2 = [ 99,99,99,99,99,99,99,99,99,99]; //预警值
+            // 指定图表的配置项和数据
+            var bar2 = {
+                    backgroundColor: 'rgba(0,0,0,1 )',
+                    calculable : true,
+                    xAxis : [
+                        {   type : 'value',
+                            splitNumber: 2,
+                            scale: false,
+                            show:false,
+                            splitLine:{
+                                show:false
+                            }
+                        },
+                    ],
+                    yAxis : [
+                        {
+                            type : 'category',
+                            data : double,
+                            splitNumber: 2,
+                            scale: true,
+                            show:true,
+                            axisTick:{
+                                show:false
+                            },
+                            axisLabel : {
+                                textStyle: {
+                                    color: '#ffffff',
+                                    fontSize:32
+                                }
+                            },
+                            splitLine:{
+                                show:false
+                            }
+                        }
+                    ],
+                    grid: {
+                        show:'true',
+                        borderWidth:'0',
+                        x:200
+                    },
+                    series : [
+                        {
+                            type: 'bar',
+                            itemStyle: {
+                                normal: {
+                                    barBorderRadius:[0, 10, 10, 0],
+                                    color: 'rgba(13,22,87,1)'
+                                }
+                            },
+                            silent: true,
+                            barWidth: 40,
+                            barGap: '-100%', // Make series be overlap
+                            data: [100,100,100,100,100,100,100,100,100,100]
+                        }, 
+
+                        {
+                            name:'磁盘',
+                            type:'bar',
+                            tooltip:{show:false},
+                            data:single,  
+                            itemStyle: {
+                                //柱形图圆角，鼠标移上去效果，如果只是一个数字则说明四个参数全部设置为那么多
+                                emphasis: {
+                                    barBorderRadius: 30
+                                },
+                                normal: {
+                                    color: function(params) {//超过预警值显示红色
+                                       if (single[params.dataIndex] > warningData2[params.dataIndex]) {
+                                            return '#D42200';
+                                        }else if(single[params.dataIndex] > warningData[params.dataIndex]){
+                                            return '#BEDB29';
+                                        }else{
+                                            return '#029CB9';
+                                        }
+                                    },
+                                    // color:'#045B28',
+                                    //柱形图圆角，初始化效果
+                                    barBorderRadius:[0, 10, 10, 0],
+                                    label: {
+                                        show: true,//是否展示
+                                        textStyle: {
+                                            fontWeight:'bolder',
+                                            fontSize : '22',
+                                            color:'#F9FBFC',
+                                            fontFamily : '微软雅黑',
+                                        }
+                                    }
+                                }
+                            },
+                            markLine:{
+                                symbol:'none',//去掉箭头
+                                itemStyle: {
+                                   normal: { 
+                                        lineStyle: {
+                                            type: 'dashed',
+                                            // 这儿设置的颜色是公共配置，如需单独配置，请在data里配置
+                                            color: '#ff0',
+                                            width:3
+                                        }, 
+                                        label: { 
+                                            show: true,
+                                            position: 'end'
+                                                
+                                        }
+                                    },
+                                },
+                                data: [
+                                // {
+                                //     name: 'X 轴值为 99 的竖直线',
+                                //     xAxis: 99,
+                                //     // 单独配置每条线的样式
+                                //     lineStyle: {
+                                //         color: '#FF0000',
+                                //         width:2
+
+                                //     },
+                                //     label: {
+                                //         show: true,//是否展示
+                                //         textStyle: {
+                                //             fontWeight:'bolder',
+                                //             fontSize : '22',
+                                //             color:'#FF0000',
+                                //             fontFamily : '微软雅黑',
+                                //         }
+                                //     }
+                                // },
+                                {
+                                    name: 'X 轴值为 50 的竖直线',
+                                    xAxis: 50,
+                                    // 单独配置每条线的样式
+                                    lineStyle: {
+                                        color: '#BEDB29',
+                                        width:2
+
+                                    },
+                                    label: {
+                                        show: true,//是否展示
+                                        textStyle: {
+                                            fontWeight:'bolder',
+                                            fontSize : '22',
+                                            color:'#BEDB29',
+                                            fontFamily : '微软雅黑',
+                                        }
+                                    }
+                                }
+                            ]}
+                        }
+                    ]
+                };  
+                // 使用刚指定的配置项和数据显示图表。
+                myChart2.setOption(bar2); 
+                window.onresize = function(){
+                    myChart2.resize();
+                } 
+                return bar2;
+        }  
+        function setOption23(single,double){
+            // 基于准备好的dom，初始化echarts实例
+            var myChart3 = echarts.init(document.getElementById('bars3'));
+            // var actualData =[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 35.6, 62.2, 32.6, 20.0]; //实际值
+            var warningData = [ 50,50,50,50,50,50,50,50,50,50]; //预警值
+            var warningData2 = [ 99,99,99,99,99,99,99,99,99,99]; //预警值
+            // 指定图表的配置项和数据
+            var bar3 = {
+                    backgroundColor: 'rgba(0,0,0,1 )',
+                    calculable : true,
+                    xAxis : [
+                        {   type : 'value',
+                            splitNumber: 2,
+                            scale: false,
+                            show:false,
+                            splitLine:{
+                                show:false
+                            }
+                        },
+                    ],
+                    yAxis : [
+                        {
+                            type : 'category',
+                            data : double,
+                            splitNumber: 2,
+                            scale: true,
+                            show:true,
+                            axisTick:{
+                                show:false
+                            },
+                            axisLabel : {
+                                textStyle: {
+                                    color: '#ffffff',
+                                    fontSize:32
+                                }
+                            },
+                            splitLine:{
+                                show:false
+                            }
+                        }
+                    ],
+                    grid: {
+                        show:'true',
+                        borderWidth:'0',
+                        x:200
+                    },
+                    series : [
+                        {
+                            type: 'bar',
+                            itemStyle: {
+                                normal: {
+                                    barBorderRadius:[0, 10, 10, 0],
+                                    color: 'rgba(13,22,87,1)'
+                                }
+                            },
+                            silent: true,
+                            barWidth: 40,
+                            barGap: '-100%', // Make series be overlap
+                            data: [100,100,100,100,100,100,100,100,100,100]
+                        }, 
+
+                        {
+                            name:'磁盘',
+                            type:'bar',
+                            tooltip:{show:false},
+                            data:single,  
+                            itemStyle: {
+                                //柱形图圆角，鼠标移上去效果，如果只是一个数字则说明四个参数全部设置为那么多
+                                emphasis: {
+                                    barBorderRadius: 30
+                                },
+                                normal: {
+                                    color: function(params) {//超过预警值显示红色
+                                         if (single[params.dataIndex] > warningData2[params.dataIndex]) {
+                                            return '#D42200';
+                                        }else if(single[params.dataIndex] > warningData[params.dataIndex]){
+                                            return '#BEDB29';
+                                        }else{
+                                            return '#029CB9';
+                                        }
+                                    },
+                                    // color:'#045B28',
+                                    //柱形图圆角，初始化效果
+                                    barBorderRadius:[0, 10, 10, 0],
+                                    label: {
+                                        show: true,//是否展示
+                                        textStyle: {
+                                            fontWeight:'bolder',
+                                            fontSize : '22',
+                                            color:'#F9FBFC',
+                                            fontFamily : '微软雅黑',
+                                        }
+                                    }
+                                }
+                            },
+                            markLine:{
+                                symbol:'none',//去掉箭头
+                                itemStyle: {
+                                   normal: { 
+                                        lineStyle: {
+                                            type: 'dashed',
+                                            // 这儿设置的颜色是公共配置，如需单独配置，请在data里配置
+                                            color: '#ff0',
+                                            width:3
+                                        }, 
+                                        label: { 
+                                            show: true,
+                                            position: 'end'
+                                                
+                                        }
+                                    },
+                                },
+                                data: [
+                                // {
+                                //     name: 'X 轴值为 99 的竖直线',
+                                //     xAxis: 99,
+                                //     // 单独配置每条线的样式
+                                //     lineStyle: {
+                                //         color: '#FF0000',
+                                //         width:2
+
+                                //     },
+                                //     label: {
+                                //         show: true,//是否展示
+                                //         textStyle: {
+                                //             fontWeight:'bolder',
+                                //             fontSize : '22',
+                                //             color:'#FF0000',
+                                //             fontFamily : '微软雅黑',
+                                //         }
+                                //     }
+                                // },
+                                {
+                                    name: 'X 轴值为 50 的竖直线',
+                                    xAxis:50,
+                                    // 单独配置每条线的样式
+                                    lineStyle: {
+                                        color: '#BEDB29',
+                                        width:2
+
+                                    },
+                                    label: {
+                                        show: true,//是否展示
+                                        textStyle: {
+                                            fontWeight:'bolder',
+                                            fontSize : '22',
+                                            color:'#BEDB29',
+                                            fontFamily : '微软雅黑',
+                                        }
+                                    }
+                                }
+                            ]}
+                        }
+                    ]
+                };  
+                // 使用刚指定的配置项和数据显示图表。
+                myChart3.setOption(bar3); 
+                window.onresize = function(){
+                    myChart3.resize();
+                } 
+                return bar3;
+        }  
+            var bar1 = echarts.init(document.getElementById('bars1'));
+            var bar2 = echarts.init(document.getElementById('bars2'));
+            var bar3 = echarts.init(document.getElementById('bars3'));
+            bar1.setOption(optionbar1);
+            bar2.setOption(optionbar2);
+            bar3.setOption(optionbar3);
+
+        function processingData2(single,double){
+                // //console.log("single"+single);
+                var CandlestickChartOption = setOption2(single,double);
+                bar1.setOption(CandlestickChartOption);
+
+        }
+        function processingData22(single,double){
+                // //console.log("single"+single);
+                var CandlestickChartOption = setOption22(single,double);
+                bar2.setOption(CandlestickChartOption);
+
+        }
+        function processingData23(single,double){
+                // //console.log("single"+single);
+                var CandlestickChartOption = setOption23(single,double);
+                bar3.setOption(CandlestickChartOption);
+        }
+        var actualData=[80,93,100,70,100];
+        var option000 = {//bottom bar
+                    backgroundColor: 'rgba(0,0,0,1 )',
+                    calculable : true,
+                    yAxis : [
+                        {   type : 'value',
+                            data : ['40%','60%','80%','100%'],
+                            splitNumber: 2,
+                            scale: false,
+                            show:true,
+                            boundaryGap: false,
+                            axisLabel : {
+                                textStyle: {
+                                    color: '#ffffff',
+                                    fontSize:32,
+                                }
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    type: 'solid',
+                                    color: '#fff',//左边线的颜色
+                                    width:'3'//坐标线的宽度
+                                }
+                            },
+                            splitLine:{
+                                show:false
+                            }
+                        },
+                    ],
+                    tooltip:{show:false},
+                    xAxis : [
+                        {
+                            type : 'category',
+                            data : ['进程','EMS链路','WAMS链路','应用','网卡'],
+                            splitNumber: 2,
+                            scale: true,
+                            show:true,                          
+                            axisTick:{
+                                show:false
+                            },
+                            axisLabel : {
+                                textStyle: {
+                                    color: '#ffffff',
+                                    fontSize:32,
+                                }
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    type: 'solid',
+                                    color: '#fff',//左边线的颜色
+                                    width:'3'//坐标线的宽度
+                                }
+                            },
+                            splitLine:{
+                                show:false
+                            }
+                        }
+                    ],
+                    grid: {show:'true',borderWidth:'0'},
+                    series : [
+                        {
+                            type: 'bar',
+                            data: [
+                                    {value:100,"ID":"0","Name":"738"},
+                                    {value:100,"ID":"1","Name":"147"},
+                                    {value:100,"ID":"2","Name":"102"},
+                                    {value:100,"ID":"3","Name":"215"},
+                                    {value:100,"ID":"4","Name":"711"}
+                                  ],
+                            tooltip:{show:false},
+                            itemStyle: {
+                                normal: {
+                                    // barBorderRadius:[10, 10, 0, 0],
+                                    color: 'rgba(13,22,87,1)',
+                                    label: {
+                                        show: true,//是否展示
+                                        position:'top',
+                                        formatter:function(params){
+                                            return params.data.Name;
+                                        },
+                                        textStyle: {
+                                            color:'white',
+                                            fontWeight:'bolder',
+                                            fontSize : '22',
+                                            fontFamily : '微软雅黑',
+                                        }
+                                    }
+                                }
+                            },
+                            silent: true,
+                            barWidth: 80,
+                            barGap: '-100%', // Make series be overlap
+                            
+                        }, 
+                        {
+                            name:'磁盘',
+                            type:'bar',
+                            tooltip:{show:false},
+                            data:[
+                                {value:99,"ID":"0","Name":parseInt(99/100*738)},
+                                {value:98,"ID":"1","Name":parseInt(98/100*147)},
+                                {value:80,"ID":"2","Name":parseInt(80/100*102)},
+                                {value:96,"ID":"3","Name":parseInt(96/100*215)},
+                                {value:88,"ID":"4","Name":parseInt(88/100*711)}
+                                            
+                            ],  
+                            barWidth:80,
+                            itemStyle: {
+                                //柱形图圆角，鼠标移上去效果，如果只是一个数字则说明四个参数全部设置为那么多
+                                emphasis: {
+                                    barBorderRadius: 30
+                                },
+                                normal: {                              
+
+                                    color: function(params) {//超过预警值显示红色
+                                        // if(actualData[params.dataIndex]>warningData2[params.dataIndex]){
+                                        //     return 'red';
+                                        // } else 
+                                        // if (actualData[params.dataIndex] > warningData2[params.dataIndex]) {
+                                        //     return 'orange';
+                                        // }else {
+                                            return '#03A0BF';
+                                        // }
+                                    },
+                                    // color:'#045B28',
+                                    //柱形图圆角，初始化效果
+                                    // barBorderRadius:[10, 10, 0, 0],
+                                    label: {
+                                        show: true,//是否展示
+                                        position:'inside',
+                                        formatter:function(params){
+                                            return params.data.Name;
+                                        },
+                                        textStyle: {
+                                            color:'white',
+                                            fontWeight:'bolder',
+                                            fontSize : '22',
+                                            fontFamily : '微软雅黑',
+                                        }
+                                    }
+                                }
+                            },
+                            markLine:{
+                                symbol:'none',//去掉箭头
+                                itemStyle: {
+                                    normal: { 
+                                        lineStyle: {
+                                            type: 'dashed',
+                                            // 这儿设置的颜色是公共配置，如需单独配置，请在data里配置
+                                            color: '#ff0',
+                                            width:2
+                                        }, 
+                                        label: { 
+                                            show: true,
+                                            position: 'end'
+                                                
+                                        }
+                                    },
+                                },
+                                data: [
+                                // {
+                                //     name: 'X 轴值为 25 的竖直线',
+                                //     xAxis: 25,
+                                //     // 单独配置每条线的样式
+                                //     lineStyle: {
+                                //         color: 'orange'
+                                //     }
+                                // },
+                                {
+                                    name: 'X 轴值为 90 的竖直线',
+                                    xAxis: 90,
+                                    // 单独配置每条线的样式
+                                    lineStyle: {
+                                        color: '#FFFF00',
+                                        width:2
+
+                                    }
+                                }
+                            ]}
+                        }
+                    ]
+                };            
+        //  bottom bar
+        function setOption3(rawData){
+            // 基于准备好的dom，初始化echarts实例
+            // var myChart = echarts.init(document.getElementById('bars')); 
+            // var actualData =[90, 80, 70, 100, 100]; //实际值
+            var actualData=rawData;
+        // 指定图表的配置项和数据
+            var option = {
+                    backgroundColor: 'rgba(0,0,0,1 )',
+                    calculable : true,
+                    // tooltip:{show:false},
+                    yAxis : [
+                        {   type : 'value',
+                            data : ['40%','60%','80%','100%'],
+                            splitNumber: 2,
+                            scale: false,
+                            show:true,
+                            boundaryGap: false,
+                            axisLabel : {
+                                textStyle: {
+                                    color: '#ffffff',
+                                    fontSize:32,
+                                }
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    type: 'solid',
+                                    color: '#fff',//左边线的颜色
+                                    width:'3'//坐标线的宽度
+                                }
+                            },
+                            splitLine:{
+                                show:false
+                            }
+                        },
+                    ],
+                    xAxis : [
+                        {
+                            type : 'category',
+                            data : ['进程','EMS链路','WAMS链路','应用','网卡'],
+                            splitNumber: 2,
+                            scale: true,
+                            show:true,
+                            axisTick:{
+                                show:false
+                            },
+                            axisLabel : {
+                                textStyle: {
+                                    color: '#ffffff',
+                                    fontSize:32,
+                                }
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    type: 'solid',
+                                    color: '#fff',//左边线的颜色
+                                    width:'3'//坐标线的宽度
+                                }
+                            },
+                            splitLine:{
+                                show:false
+                            }
+                        }
+                    ],
+                    grid: {show:'true',borderWidth:'0'},
+                    series : [
+                        {
+                            type: 'bar',
+                            data: [
+                                {value:100,"ID":"0","Name":"738"},
+                　　　　　　　　　　{value:100,"ID":"1","Name":"147"},
+                　　　　　　　　　　{value:100,"ID":"2","Name":"102"},
+                　　　　　　　　　　{value:100,"ID":"3","Name":"215"},
+                                  {value:100,"ID":"4","Name":"711"}
+                                  ],
+                            tooltip:{show:false},
+                            itemStyle: {
+                                normal: {
+                                    // barBorderRadius:[10, 10, 0, 0],
+                                    color: 'rgba(13,22,87,1)',
+                                    label: {
+                                        show: true,//是否展示
+                                        position:'top',
+                                        formatter:function(params){
+                                            return params.data.Name;
+                                        },
+                                        textStyle: {
+                                            color:'white',
+                                            fontWeight:'bolder',
+                                            fontSize : '22',
+                                            fontFamily : '微软雅黑',
+                                        }
+                                    }
+                                }
+                            },
+                            silent: true,
+                            barWidth: 80,
+                            barGap: '-100%', // Make series be overlap
+                            
+                        }, 
+                        {
+                            name:'磁盘',
+                            type:'bar',
+                            tooltip:{show:false},
+                            data:[
+                                {value:rawData[0],"ID":"0","Name":parseInt(rawData[0]/100*738)},
+                                {value:rawData[1],"ID":"1","Name":parseInt(rawData[1]/100*147)},
+                                {value:rawData[2],"ID":"2","Name":parseInt(rawData[2]/100*102)},
+                                {value:rawData[3],"ID":"3","Name":parseInt(rawData[3]/100*215)},
+                                {value:rawData[4],"ID":"4","Name":parseInt(rawData[4]/100*711)}
+                                            
+                            ],  
+                            barWidth:80,
+                            itemStyle: {
+                                //柱形图圆角，鼠标移上去效果，如果只是一个数字则说明四个参数全部设置为那么多
+                                emphasis: {
+                                    barBorderRadius: 30
+                                },
+                                normal: {                              
+
+                                    color: function(params) {//超过预警值显示红色
+                                        // if(actualData[params.dataIndex]>warningData2[params.dataIndex]){
+                                        //     return 'red';
+                                        // } else 
+                                        // if (actualData[params.dataIndex] > warningData2[params.dataIndex]) {
+                                        //     return 'orange';
+                                        // }else {
+                                            return '#03A0BF';
+                                        // }
+                                    },
+                                    // color:'#045B28',
+                                    //柱形图圆角，初始化效果
+                                    // barBorderRadius:[10, 10, 0, 0],
+                                    label: {
+                                        show: true,//是否展示
+                                        position:'inside',
+                                        formatter:function(params){
+                                            return params.data.Name;
+                                        },
+                                        textStyle: {
+                                            color:'white',
+                                            fontWeight:'bolder',
+                                            fontSize : '22',
+                                            fontFamily : '微软雅黑',
+                                        }
+                                    }
+                                }
+                            },
+                            markLine:{
+                                symbol:'none',//去掉箭头
+                                itemStyle: {
+                                    normal: { 
+                                        lineStyle: {
+                                            type: 'dashed',
+                                            // 这儿设置的颜色是公共配置，如需单独配置，请在data里配置
+                                            color: '#ff0',
+                                            width:2
+                                        }, 
+                                        label: { 
+                                            show: true,
+                                            position: 'end'
+                                                
+                                        }
+                                    },
+                                },
+                                data: [
+                                // {
+                                //     name: 'X 轴值为 25 的竖直线',
+                                //     xAxis: 25,
+                                //     // 单独配置每条线的样式
+                                //     lineStyle: {
+                                //         color: 'orange'
+                                //     }
+                                // },
+                                {
+                                    name: 'X 轴值为 90 的竖直线',
+                                    xAxis: 90,
+                                    // 单独配置每条线的样式
+                                    lineStyle: {
+                                        color: '#FFFF00',
+                                        width:2
+
+                                    }
+                                }
+                            ]}
+                        }
+                    ]
+                };  
+            // 使用刚指定的配置项和数据显示图表。
+            myChart4.setOption(option);  
+            window.onresize = function(){
+                myChart4.resize();
+            } 
+            return option;
+        }   
+        var myChart4 = echarts.init(document.getElementById('bars'));
+        myChart4.setOption(option000);
+        function processingData3(jsonData){
+            // //console.log("jsonData"+jsonData);
+            var CandlestickChartOption = setOption3(jsonData);
+            myChart4.setOption(CandlestickChartOption);
+            // myChart.resize();
+        }
+     //Websocket配置 // --------------------------------------------------
+        // var point = option.series[0].data[0].Parameters;
+        // 告警列表对象准备
+        var MyMarhq = '';
+        var tblTop = 0;
+        clearInterval(MyMarhq);
+        var initArrSize = 0;
+        var Items=[];
+        var exigency_number=0;
+        var important_number=0;
+        var common_number=0;
+        var total=0;
+
+        var wsUri = "ws:localhost:5209";
+        var ws = new WebSocket(wsUri);
+        // //console.log("point"+point);
+        // var radarb;
+        ws.onopen = function(evt) {
+            //console.log("Connection open ...");
+            ws.send("Hello WebSockets!" + Math.random());
+        };
+
+        ws.onmessage = function(evt) {
+            //console.log( "Received Message: " + evt.data);
+            var message = evt.data;//bar1#[[sgs1-adm1, 96], [sgs1-adm1, 88], [sgs1-adm1, 99], [sgs1-adm1, 89], [sgs1-adm1, 66], [sgs1-adm1, 66], [sgs1-adm1, 66], [sgs1-adm1, 66], [sgs1-adm1, 66], [sgs1-adm1, 66]]
+
+         //处理接收到的数据
+                var flags=message.split('#')[0];//将标志与数据分离
+                if (flags=="warningtable") {
+                var value=message.split('#')[1];//获取数据
+                value=value.substring(1,value.length-1);
+                value=value.replace(/\[/g,"");
+                value=value.replace(/\]/g,"");
+                var arr=!!value ? value.split(", ") : [];
+                initArrSize = arr.length;
+                // 清理之前接收的数据，使得数据刷新
+                console.log(Items,"Itemschuli==============");
+                Items = [];//.splice(0,Items.length);
+                for (var i = 0; i<arr.length; ) {
+                    var d = new Date(arr[i]);
+                    var t = d.getTime(d);
+                    arr.splice(i+4,1,t);
+                    var items={"HappenTime":arr[i],"Type":arr[i+1],"Details":arr[i+2],"Level":arr[i+3],"ProcessingTime":arr[i+4]}
+                    Items.push(items);
+                    i=i+5;
+                }
+            }
+            if (flags=="warning_number") {
+                var value=message.split('#')[1];
+                var value_v=value.split("[")[1];
+                var value=value_v.split("]")[0];
+                value=value.replace(/\s/g,"");
+                var result=value.split(",");
+                //console.log("result.length"+result.length);
+         
+                exigency_number=parseInt(result[0]);
+                important_number=parseInt(result[1]);
+                common_number=parseInt(result[2]);
+                total=exigency_number+important_number+common_number;
+                 // warning_number
+                document.getElementById("total").innerHTML=total;
+                document.getElementById("exigency").innerHTML=exigency_number;
+                document.getElementById("important").innerHTML=important_number;
+                document.getElementById("common").innerHTML=common_number;
+            }
+//*****************radar
+            var radar_flags=message.split('#')[0];
+            var radar_value=message.split('#')[1];//value[93, 100, 60, 100, 100, 100, 100, 100]
+            var radar_v=radar_value.split("[")[1];
+            var radar_v2=radar_v.split("]")[0];
+            // //console.log("v"+radar_v2);
+            radar_value=radar_v2.split(", ");
+            // radarb=radar_value;
+            //console.log("radar_value:"+radar_value);            
+            if('radar'===radar_flags){
+                // point=value;
+                processingData1(radar_value,score_value);
+                // //console.log("pointAfter"+v);
+            }
+//*****************radar
+// ***************bars1
+            var bars1_flags=message.split('#')[0];
+            var bars1_value=message.split('#')[1];
+            bars1_value=bars1_value.substring(1,bars1_value.length-1);
+            // var arr = new Array(); 
+            var bars1_arr=bars1_value.split(", ");
+            // var elem_child = value.childNodes;
+            // //console.log("arr.length"+bars1_arr.length);
+            var bars1_i;
+            var single="";
+            var double="";
+            for(bars1_i=bars1_arr.length-1;bars1_i>=0;bars1_i--){
+                if(bars1_i%2==0){
+                    bars1_arr[bars1_i]=bars1_arr[bars1_i].substring(1,bars1_arr[bars1_i].length);
+                    double+=bars1_arr[bars1_i]+",";
+                }else{
+                    bars1_arr[bars1_i]=bars1_arr[bars1_i].substring(0,bars1_arr[bars1_i].length-1);
+                    single+=bars1_arr[bars1_i]+",";
+                }                
+                // //console.log("arr["+bars1_i+"]"+bars1_arr[bars1_i]);
+            }
+            single=single.substring(0,single.length-1);
+            double=double.substring(0,double.length-1);
+            // single=single+"]";
+            // double=double+"]";
+            single=single.split(",");
+            double=double.split(",");
+            // //console.log("arr"+bars1_arr);
+            // //console.log("single"+single);
+            // //console.log("double"+double);
+                       
+            if('bar1'===bars1_flags){
+                // //console.log('true');
+                // point=value;
+                processingData2(single,double);
+                // //console.log("pointAfter"+v);
+            }
+            
+// *****************bars1
+// ***************bars2
+            var bars2_flags=message.split('#')[0];
+            var bars2_value=message.split('#')[1];
+            bars2_value=bars2_value.substring(1,bars2_value.length-1);
+            // var arr = new Array(); 
+            var bars2_arr=bars2_value.split(", ");
+            // var elem_child = value.childNodes;
+            // //console.log("arr.length"+bars1_arr.length);
+            var bars2_i;
+            var single="";
+            var double="";
+            for(bars2_i=bars2_arr.length-1;bars2_i>=0;bars2_i--){
+                if(bars2_i%2==0){
+                    bars2_arr[bars2_i]=bars2_arr[bars2_i].substring(1,bars2_arr[bars2_i].length);
+                    double+=bars2_arr[bars2_i]+",";
+                }else{
+                    bars2_arr[bars2_i]=bars2_arr[bars2_i].substring(0,bars2_arr[bars2_i].length-1);
+                    single+=bars2_arr[bars2_i]+",";
+                }                
+                // //console.log("arr["+bars1_i+"]"+bars1_arr[bars1_i]);
+            }
+            single=single.substring(0,single.length-1);
+            double=double.substring(0,double.length-1);
+            // single=single+"]";
+            // double=double+"]";
+            single=single.split(",");
+            double=double.split(",");
+            // //console.log("arr"+bars1_arr);
+            // //console.log("single"+single);
+            // //console.log("double"+double);
+                       
+            if('bar2'===bars2_flags){
+                // //console.log('true');
+                // point=value;
+                processingData22(single,double);
+                // //console.log("pointAfter"+v);
+            }
+            
+// *****************bars2
+
+// ***************bars3
+            var bars3_flags=message.split('#')[0];
+            var bars3_value=message.split('#')[1];
+            bars3_value=bars3_value.substring(1,bars3_value.length-1);
+            // var arr = new Array(); 
+            var bars3_arr=bars3_value.split(", ");
+            // var elem_child = value.childNodes;
+            // //console.log("arr.length"+bars1_arr.length);
+            var bars3_i;
+            var single="";
+            var double="";
+            for(bars3_i=bars3_arr.length-1;bars3_i>=0;bars3_i--){
+                if(bars3_i%2==0){
+                    bars3_arr[bars3_i]=bars3_arr[bars3_i].substring(1,bars3_arr[bars3_i].length);
+                    double+=bars3_arr[bars3_i]+",";
+                }else{
+                    bars3_arr[bars3_i]=bars3_arr[bars3_i].substring(0,bars3_arr[bars3_i].length-1);
+                    single+=bars3_arr[bars3_i]+",";
+                }                
+                // //console.log("arr["+bars1_i+"]"+bars1_arr[bars1_i]);
+            }
+            single=single.substring(0,single.length-1);
+            double=double.substring(0,double.length-1);
+            // single=single+"]";
+            // double=double+"]";
+            single=single.split(",");
+            double=double.split(",");
+            // //console.log("arr"+bars1_arr);
+            // //console.log("single"+single);
+            // //console.log("double"+double);
+                       
+            if('bar3'===bars3_flags){
+                // //console.log('true');
+                // point=value;
+                processingData23(single,double);
+                // //console.log("pointAfter"+v);
+            }
+            
+// *****************bars3
+//*****************bottombar
+            var bottombar_flags=message.split('#')[0];
+            var bottombar_value=message.split('#')[1];//value[93, 100, 60, 100, 100, 100, 100, 100]
+            var bottombar_v=bottombar_value.split("[")[1];
+            var bottombar_v2=bottombar_v.split("]")[0];
+            // //console.log("v"+bottombar_v2);
+            bottombar_value=bottombar_v2.split(", ");
+            // //console.log("v2"+bottombar_value);            
+            if('bottombar'===bottombar_flags){
+                // //console.log('true');
+                // point=value;
+                processingData3(bottombar_value);
+                // //console.log("pointAfter"+v);
+            }
+//*****************bottombar
+//小文本服务器、工作站
+            var sgssgw_flags=message.split('#')[0];
+            var sgssgw_value=message.split('#')[1];
+            var sgssgw_value=sgssgw_value.split("[")[1];
+            var sgssgw_value=sgssgw_value.split("]")[0];
+            var sgs=sgssgw_value.split(",")[0];
+            var sgw=sgssgw_value.split(",")[1];
+            // //console.log(sgssgw_value);
+            if('sgssgw'===sgssgw_flags){
+                // //console.log('true');
+                // point=value;
+                document.getElementById("sgs").innerText =sgs;
+                document.getElementById("sgw").innerText =sgw;
+                // processingData3(bottombar_value);
+                // //console.log("pointAfter"+v);
+            }
+//小文本综合得分
+            var score_flags=message.split('#')[0];
+            var score_value=message.split('#')[1];
+            var score_value=score_value.split("[")[1];
+            var score_value=score_value.split("]")[0];
+             //console.log('scoresssssss'+score_value);
+            if('scoresss'==sgssgw_flags){
+                    // optionradar.
+                score=score_value;
+                if(score>=90){
+                    color='rgba(0,190,77,1 )';
+                }else if(score>=80){
+                    color='rgba(0,178,76,1 )';
+                }else if(score>=70){
+                    color='rgba(84,132,55,1 )';
+                }else {
+                    color='rgba(106,124,51,1 )';
+                }
+                // processingData1(radarb,score_value);
+                // //console.log("pointAfter"+v);
+            }
+
+           
+        };
+
+
+         //获取时间
+    function getLocalTime(nS) {
+        return new Date(parseInt(nS)).toLocaleString().replace(/:\d{1,2}$/, ' ');
+    }
+
+   
+    $('.tbl-body tbody').empty();
+    $('.tbl-header tbody').empty();
+    var str = '';//表格串
+
+    // 设置告警处理时间限值
+    var Levelwarntime1 = 14400000;
+    var Levelwarntime2 = 86400000;
+    var Levelwarntime3 = 1209600000;
+    function buildtable() {
+        $('.tbl-body tbody').empty();
+        $('.tbl-header tbody').empty();
+        console.log("Itemstable=========",Items);
+        $.each(Items, function (i, item) {
+                var myimage = 'myimage' + i;//标识id唯一
+                var fontcolor = 'fontcolor' + i;//标识id唯一
+                var time = '00:00:00'
+                var src = "";
+                var style = "";
+                console.log("Itemstable11111=========",Items);
+                // 计算时间差
+                var date3 = item.ProcessingTime == '00:00:00' ? new Date().getTime() : new Date().getTime() - item.ProcessingTime
+                // 根据告警级别来设定倒计时初始时间
+                if (item.Level==1) { 
+                ProcTime = Levelwarntime1 - date3
+                if (ProcTime<=0) {
+                    ProcTime=0;
+                } 
+            }else if(item.Level==2){
+                ProcTime = Levelwarntime2 - date3
+                if (ProcTime<=0) {
+                    ProcTime=0;
+                }
+            }else{
+                ProcTime = Levelwarntime3 - date3
+                if (ProcTime<=0) {
+                    ProcTime=0;
+                }
+            }
+
+
+                if (ProcTime==0) {
+                    item.ProcessingTime = "0"+"0" + ':' + "0"+"0" + ':' + "0"+"0";
+                } else {
+                //计算相差天数
+                var days = Math.floor(ProcTime / (24 * 3600 * 1000))
+                //计算小时数
+                var leave1 = ProcTime % (24 * 3600 * 1000)    //计算天数后剩余的毫秒数
+                var hours = Math.floor(leave1 / (3600 * 1000))
+                //计算相差分钟数
+                var leave2 = leave1 % (3600 * 1000)        //计算小时数后剩余的毫秒数
+                var minutes = Math.floor(leave2 / (60 * 1000))
+                //计算相差秒数
+                var leave3 = leave2 % (60 * 1000)      //计算分钟数后剩余的毫秒数
+                var seconds = Math.round(leave3 / 1000)
+                // //console.log(" 相差 " + days + "天 " + hours + "小时 " + minutes + " 分钟" + seconds + " 秒")
+                hours = hours <10 ? '0'+hours: hours;
+                minutes = minutes <10 ? '0'+minutes: minutes;
+                seconds = seconds <10 ? '0'+seconds: seconds;
+                time = hours + ':' + minutes + ':' + seconds;
+            }
+                
+                var Level_font="";
+                //将告警级别替换成中文，并添加文字颜色
+                if (item.Level == 1) {
+                    Level_font = '紧急';
+                    src = "images/red.png";
+                    style = "color:red";
+                } else if (item.Level == 2) {
+                    Level_font = '重要';
+                    src = "images/orange.png";
+                    style = "color:orange";
+                } else {
+                    Level_font = '一般';
+                    src = "images/green.png";
+                    style = "color:green";
+                }
+                // 填充数据
+                str = '<tr class="bg">' +
+                    '<td>' + item.HappenTime + '</td>' +
+                    '<td>' + item.Type + '</td>' +
+                    '<td>' + item.Details + '</td>' +
+                    '<td>' + '<img id=' + myimage + ' src= ' + src + ' style> '+ '<p id=' + fontcolor + ' style= ' + style + '>' + Level_font + '</p>' +' </td>' +
+                    '<td>'+ time + '</td>' +
+                    '</tr>';
+                // 构成表格
+                $('.tbl-body tbody').append(str);//指定标签插入数据
+                $('.tbl-header tbody').append(str);
+            }
+        );
+        // 当大于10条记录的时候循环播放
+        if (Items.length > 5) {
+            $('.tbl-body tbody').html($('.tbl-body tbody').html() + $('.tbl-body tbody').html());
+            $('.tbl-body').css('top', '0');
+            var speedhq = 20; // 数值越大越慢
+            var outerHeight = $('.tbl-body tbody').find("tr").outerHeight();
+
+            function Marqueehq() {
+                if (tblTop <= -outerHeight * Items.length) {
+                    tblTop = 0;
+                } else {
+                    tblTop -= 1;
+                }
+                $('.tbl-body').css('top', tblTop + 'px');
+            }
+
+            MyMarhq = setInterval(Marqueehq, speedhq);
+            // 鼠标移上去取消事件
+            $(".tbl-header tbody").hover(function () {
+                clearInterval(MyMarhq);
+            }, function () {
+                clearInterval(MyMarhq);
+                MyMarhq = setInterval(Marqueehq, speedhq);
+            })
+        }
+    }//buildtable结尾
+// 实现处理时间按每秒减少
+    setInterval(function () {
+        var item = $('.tbl-body tbody').find("tr")
+        $.each(item, function (i, data) {
+            var countDown = data.children[4].innerHTML;
+            countDown == '0:0:0' || countDown == '00:00:00' ? data.children[4].innerHTML = '00:00:00'
+                : data.children[4].innerHTML = formatCSTDate(moment(countDown, "hh:mm:ss").add(-1, "s"), "hh:mm:ss");
+               
+               
+        })
+    }, 1000)
+
+    buildtable();
+    // 根据数据条数动态调整刷新周期
+    // var refreshtime=Items.length;
+    setInterval(function () {
+        clearInterval(MyMarhq);
+
+        buildtable();
+        tblTop = 0;
+        $('.tbl-body').css('top', tblTop + 'px');
+
+    }, 5*1000);
+    </script>
+</html>

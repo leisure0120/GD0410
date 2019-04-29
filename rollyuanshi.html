@@ -1,0 +1,338 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>table表格无缝向上滚动</title>
+    <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+    <!-- <script type="text/javascript" src="../js/echarts.js"></script> -->
+    <!-- <script type="text/javascript" src="js/jquery.min.js"></script> -->
+    <!-- <script type="text/javascript" src="../js/jquery.js"></script> -->
+    <script type="text/javascript" src="js/moment.min.js"></script>
+    <script type="text/javascript" src="js/formate.js"></script>
+    <style>
+        .tablebox {
+            height: 500px;
+            overflow: hidden;
+            position: relative;
+            width: 1345px;
+            margin: 100px auto;
+            background-color: rgba(0, 0, 0, 1);
+            border-radius: 30px;
+        }
+
+        .tbl-header {
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 999;
+            border-radius: 30px;
+        }
+
+        .tbl-body {
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 30px;
+        }
+
+        .tablebox table {
+            width: 100%;
+        }
+
+        .tablebox table th,
+        .tablebox table td {
+            font-size: 24px;
+            color: #fff;
+            line-height: 45px;
+            text-align: center;
+        }
+
+        .tablebox table tr th {
+            background-color: #3679A4;
+            cursor: pointer;
+        }
+        .tb1_boody table tr {
+            border: 1;
+            border-radius: 30px;
+        }
+
+        .tablebox table tr td {
+            background-color: #07141A;
+        }
+
+        .tbl-body tr:nth-child(even) td, .tbl-body1 tr:nth-child(even) td {
+            background-color: #07141A;
+        }
+
+        .tablebox table tr td span,
+        .tablebox table tr td span {
+            font-size: 24px;
+        }
+        /* 设置自适应表 */
+        .Fircolumn,.fircolumn {
+            width: 21%;
+        }
+        .Seccolumn,.seccolumn {
+            width: 10%;
+        }
+        .Thrcolumn,.thrcolumn {
+            width: 50%;
+        }
+        .Foucolumn,.foucolumn {
+            width: 10%;
+        }
+        .Fivcolumn,.fivcolumn {
+            width: 9%;
+        }
+    </style>
+</head>
+<body>
+    <div><p style="color: red;float: left;" >紧急：</p><p id="exigency" style="color: red;float: left;"></p>&nbsp;&nbsp;
+        <p style="color: orange;float:left; ">重要：</p><p id="important" style="color: orange;float: left;"></p>&nbsp;&nbsp;
+        <p style="color: green;float: left;">一般：</p><p id="common" style="color: green;float: left;"></p>
+    </div>
+<div class="tablebox">
+    <div class="tbl-header">
+        <table  cellspacing="0" style="border-radius: 30px;" class="button" >
+            <thead>
+            <tr>
+                <th class="Fircolumn">扫描时间</th>
+                <th class="Seccolumn">类型</th>
+                <th class="Thrcolumn">内容</th>
+                <th class="Foucolumn">级别</th>
+                <th class="Fivcolumn">处理时间</th>
+            </tr>
+            </thead>
+            <tbody style="opacity:0;"></tbody>
+        </table>
+    </div>
+
+    <div class="tbl-body">
+        <table border="0" cellspacing="0" style="border-radius: 30px;" cellpadding="0">
+            <thead>
+            <tr>
+                <th class="fircolumn">扫描时间</th>
+                <th class="seccolumn">类型</th>
+                <th class="thrcolumn">内容</th>
+                <th class="foucolumn">级别</th>
+                <th class="fivcolumn">处理时间</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    var MyMarhq = '';
+    var tblTop = 0;
+    clearInterval(MyMarhq);
+    var initArrSize = 0;
+    var wsUri="ws:localhost:5209";//webscoketurl地址
+    var ws =new WebSocket(wsUri);
+    ws.onopen =function(evt){//打开websocket连接
+        console.log("Connection open ...")
+        ws.send("Hello webSockets!"+Math.random());
+    };
+    // 定义一个数组用来接收告警数据
+    var Items=[];
+    var exigency_number=0;
+    var important_number=0;
+    var common_number=0;
+    ws.onmessage = function(evt){
+        console.log("Received Messsge");
+        var message = evt.data;
+        //处理接收到的数据
+        var flags=message.split('#')[0];//将标志与数据分离
+        if (flags=="warningtable") {
+        var value=message.split('#')[1];//获取数据
+        console.log("tabelevalue========="+value);
+        value=value.substring(1,value.length-1);
+        value=value.replace(/\[/g,"");
+        value=value.replace(/\]/g,"");
+        var arr=!!value ? value.split(", ") : [];
+        console.log("arr===="+arr.length);
+        console.log("initArrSize===="+initArrSize);
+        initArrSize = arr.length;
+        // 清理之前接收的数据，使得数据刷新
+        Items.splice(0,Items.length);
+        for (var i = 0; i<arr.length; ) {
+            var d = new Date(arr[i]);
+            var t = d.getTime(d);
+            arr.splice(i+4,1,t);
+            var items={"HappenTime":arr[i],"Type":arr[i+1],"Details":arr[i+2],"Level":arr[i+3],"ProcessingTime":arr[i+4]}
+            Items.push(items);
+            i=i+5;
+        }
+    }
+    if (flags=="warning_number") {
+        var value=message.split('#')[1];
+        console.log("numbervalue========="+value);
+        console.log("number.length======="+value.length);
+        value=value.replace(/\s/g,"");
+        value=value.substring(1,value.length-1);
+        console.log("value.length======="+value.length);
+        console.log("value======="+value);
+        exigency_number=value.split(',')[0];
+        var values=value.split(',')[1];
+        console.log("value2======="+values);
+        important_number=values.split(',')[0];
+        common_number=values.split(',')[1];
+        console.log("exigency==="+exigency_number);
+        console.log("important==="+important_number);
+        console.log("common==="+common_number);
+    }
+    } 
+    ws.onerror = function(evt) {
+            console.log("发生了错误");
+    };
+
+    ws.onclose = function(evt) {
+            console.log("Connection closed.");
+    };    
+    //获取时间
+    function getLocalTime(nS) {
+        return new Date(parseInt(nS)).toLocaleString().replace(/:\d{1,2}$/, ' ');
+    }
+
+   
+    $('.tbl-body tbody').empty();
+    $('.tbl-header tbody').empty();
+    var str = '';
+
+    // warning_number
+        document.getElementById("exigency").innerHTML=exigency_number;
+        document.getElementById("important").innerHTML=important_number;
+        document.getElementById("common").innerHTML=common_number;
+   
+    // 设置告警处理时间限值
+    var Levelwarntime1 = 14400000;
+    var Levelwarntime2 = 86400000;
+    var Levelwarntime3 = 1209600000;
+    function buildtable() {
+        $('.tbl-body tbody').empty();
+        $('.tbl-header tbody').empty();
+        $.each(Items, function (i, item) {
+                var myimage = 'myimage' + i;//标识id唯一
+                var fontcolor = 'fontcolor' + i;//标识id唯一
+                var src = "";
+                var style = "";
+                // 计算时间差
+                var date3 = new Date().getTime() - item.ProcessingTime
+                // 根据告警级别来设定倒计时初始时间
+                if (item.Level==1) { 
+                ProcTime = Levelwarntime1 - date3
+                if (ProcTime<=0) {
+                    ProcTime=0;
+                } 
+            }else if(item.Level==2){
+                ProcTime = Levelwarntime2 - date3
+                if (ProcTime<=0) {
+                    ProcTime=0;
+                }
+            }else{
+                ProcTime = Levelwarntime3 - date3
+                if (ProcTime<=0) {
+                    ProcTime=0;
+                }
+            }
+                if (ProcTime==0) {
+                    item.ProcessingTime = "0"+"0" + ':' + "0"+"0" + ':' + "0"+"0";
+                } else {
+                //计算相差天数
+                var days = Math.floor(ProcTime / (24 * 3600 * 1000))
+                //计算小时数
+                var leave1 = ProcTime % (24 * 3600 * 1000)    //计算天数后剩余的毫秒数
+                var hours = Math.floor(leave1 / (3600 * 1000))
+                //计算相差分钟数
+                var leave2 = leave1 % (3600 * 1000)        //计算小时数后剩余的毫秒数
+                var minutes = Math.floor(leave2 / (60 * 1000))
+                //计算相差秒数
+                var leave3 = leave2 % (60 * 1000)      //计算分钟数后剩余的毫秒数
+                var seconds = Math.round(leave3 / 1000)
+                // console.log(" 相差 " + days + "天 " + hours + "小时 " + minutes + " 分钟" + seconds + " 秒")
+                item.ProcessingTime = hours + ':' + minutes + ':' + seconds;
+            }
+                
+                //将告警级别替换成中文，并添加文字颜色
+                if (item.Level == 1) {
+                    item.Level = '紧急';
+                    src = "images/red.png";
+                    style = "color:red";
+                } else if (item.Level == 2) {
+                    item.Level = '重要';
+                    src = "images/orange.png";
+                    style = "color:orange";
+                } else {
+                    item.Level = '一般';
+                    src = "images/green.png";
+                    style = "color:green";
+                }
+                // 填充数据
+                str = '<tr>' +
+                    '<td>' + item.HappenTime + '</td>' +
+                    '<td>' + item.Type + '</td>' +
+                    '<td>' + item.Details + '</td>' +
+                    '<td>' + '<img id=' + myimage + ' src= ' + src + ' style> '+ '<p id=' + fontcolor + ' style= ' + style + '>' + item.Level + '</p>' +' </td>' +
+                    '<td>'+ item.ProcessingTime + '</td>' +
+                    '</tr>';
+                // 构成表格
+                $('.tbl-body tbody').append(str);//指定标签插入数据
+                $('.tbl-header tbody').append(str);
+            }
+        );
+        // 当大于10条记录的时候循环播放
+        if (Items.length > 5) {
+            $('.tbl-body tbody').html($('.tbl-body tbody').html() + $('.tbl-body tbody').html());
+            $('.tbl-body').css('top', '0');
+            var speedhq = 20; // 数值越大越慢
+            var outerHeight = $('.tbl-body tbody').find("tr").outerHeight();
+
+            function Marqueehq() {
+                if (tblTop <= -outerHeight * Items.length) {
+                    tblTop = 0;
+                } else {
+                    tblTop -= 1;
+                }
+                $('.tbl-body').css('top', tblTop + 'px');
+            }
+
+            MyMarhq = setInterval(Marqueehq, speedhq);
+            // 鼠标移上去取消事件
+            $(".tbl-header tbody").hover(function () {
+                clearInterval(MyMarhq);
+            }, function () {
+                clearInterval(MyMarhq);
+                MyMarhq = setInterval(Marqueehq, speedhq);
+            })
+        }
+    }//buildtable结尾
+// 实现处理时间按每秒减少
+    setInterval(function () {
+        var item = $('.tbl-body tbody').find("tr")
+        $.each(item, function (i, data) {
+            var countDown = data.children[4].innerHTML;
+            countDown == '0:0:0' || countDown == '00:00:00' ? data.children[4].innerHTML = '00:00:00'
+                : data.children[4].innerHTML = formatCSTDate(moment(countDown, "hh:mm:ss").add(-1, "s"), "hh:mm:ss");
+        })
+    }, 1000)
+
+    buildtable();
+    // 根据数据条数动态调整刷新周期
+    // var refreshtime=Items.length;
+    setInterval(function () {
+        clearInterval(MyMarhq);
+        buildtable();
+        tblTop = 0;
+        $('.tbl-body').css('top', tblTop + 'px');
+
+    }, 20*1000);
+
+
+
+</script>
+
+</body>
+</html>
